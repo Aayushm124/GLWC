@@ -1,119 +1,137 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { PRODUCTS, CAROUSEL } from './data';
+import {
+  collection, onSnapshot, addDoc, updateDoc,
+  deleteDoc, doc, setDoc, getDoc
+} from 'firebase/firestore';
+import { db } from './firebase';
 
 const ProductContext = createContext();
 
-//  SECURITY CONFIG 
-// Change these two values before deploying!
-const ADMIN_SECRET_PATH = '/yash-admin';   // Secret URL — change this to something only I know
-const ADMIN_PASSWORD    = 'yash123'; // Strong password — change this too
-const MAX_ATTEMPTS      = 5;                  // Lock after this many wrong attempts
-const LOCKOUT_MINUTES   = 15;                 // Lock duration in minutes
-// ------------------
+// ─── SECURITY CONFIG ─────────────────────────────────────────
+const ADMIN_SECRET_PATH = '/yash-admin';
+const ADMIN_PASSWORD    = 'yash123';
+const MAX_ATTEMPTS      = 5;
+const LOCKOUT_MINUTES   = 15;
+// ─────────────────────────────────────────────────────────────
 
 export { ADMIN_SECRET_PATH };
 
 export function ProductProvider({ children }) {
-  const [products, setProducts] = useState(() => {
-    try { const s = localStorage.getItem('sd_products'); return s ? JSON.parse(s) : PRODUCTS; }
-    catch { return PRODUCTS; }
-  });
-
-  const [carousel, setCarousel] = useState(() => {
-    try { const s = localStorage.getItem('sd_carousel'); return s ? JSON.parse(s) : CAROUSEL; }
-    catch { return CAROUSEL; }
-  });
-
+  const [products, setProducts] = useState([]);
+  const [carousel, setCarousel] = useState({ new: [], bestseller: [], handpicked: [] });
+  const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(() => sessionStorage.getItem('sd_admin') === 'true');
 
-  // Brute-force lockout state (stored in localStorage so it persists across tabs)
+  // ── Listen to Firestore products in real time ──
+  useEffect(() => {
+    const unsub = onSnapshot(collection(db, 'products'), snapshot => {
+      const data = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+      setProducts(data);
+      setLoading(false);
+    });
+    return () => unsub();
+  }, []);
+
+  // ── Listen to Firestore carousel in real time ──
+  useEffect(() => {
+    const unsub = onSnapshot(doc(db, 'carousel', 'data'), snap => {
+      if (snap.exists()) setCarousel(snap.data());
+    });
+    return () => unsub();
+  }, []);
+
+  // ── Products CRUD ──
+  const addProduct = async (product) => {
+    await addDoc(collection(db, 'products'), {
+      ...product,
+      price: Number(product.price),
+      old: Number(product.old),
+      badges: product.badges || [],
+      colors: product.colors || ['#daa532'],
+      createdAt: Date.now(),
+    });
+  };
+
+  const updateProduct = async (id, updated) => {
+    await updateDoc(doc(db, 'products', id), {
+      ...updated,
+      price: Number(updated.price),
+      old: Number(updated.old),
+    });
+  };
+
+  const deleteProduct = async (id) => {
+    await deleteDoc(doc(db, 'products', id));
+  };
+
+  // ── Carousel CRUD ──
+  const addCarouselItem = async (tab, item) => {
+    const newItem = { ...item, id: Date.now(), price: Number(item.price) };
+    const updated = { ...carousel, [tab]: [newItem, ...(carousel[tab] || [])] };
+    await setDoc(doc(db, 'carousel', 'data'), updated);
+  };
+
+  const updateCarouselItem = async (tab, id, updated) => {
+    const updatedList = carousel[tab].map(i =>
+      i.id === id ? { ...i, ...updated, price: Number(updated.price) } : i
+    );
+    await setDoc(doc(db, 'carousel', 'data'), { ...carousel, [tab]: updatedList });
+  };
+
+  const deleteCarouselItem = async (tab, id) => {
+    const updatedList = carousel[tab].filter(i => i.id !== id);
+    await setDoc(doc(db, 'carousel', 'data'), { ...carousel, [tab]: updatedList });
+  };
+
+  // ── Auth with brute-force protection ──
   const getLockout = () => {
     try { return JSON.parse(localStorage.getItem('sd_lockout') || '{}'); }
     catch { return {}; }
   };
   const saveLockout = (data) => localStorage.setItem('sd_lockout', JSON.stringify(data));
 
-  useEffect(() => { localStorage.setItem('sd_products', JSON.stringify(products)); }, [products]);
-  useEffect(() => { localStorage.setItem('sd_carousel', JSON.stringify(carousel)); }, [carousel]);
-
-  // Products CRUD
-const addProduct = (product) => {
-    setProducts(prev => [{ ...product, id: Date.now(), price: Number(product.price), old: Number(product.old), badges: product.badges || [], colors: product.colors || ['#daa532'], image2: product.image2 || '', image3: product.image3 || '' }, ...prev]);
-  };
-  const updateProduct = (id, updated) => {
-    setProducts(prev => prev.map(p => p.id === id ? { ...p, ...updated, price: Number(updated.price), old: Number(updated.old) } : p));
-  };
-  const deleteProduct = (id) => setProducts(prev => prev.filter(p => p.id !== id));
-
-  // Carousel CRUD
-  const addCarouselItem = (tab, item) => {
-    setCarousel(prev => ({ ...prev, [tab]: [{ ...item, id: Date.now(), price: Number(item.price) }, ...(prev[tab] || [])] }));
-  };
-  const updateCarouselItem = (tab, id, updated) => {
-    setCarousel(prev => ({ ...prev, [tab]: prev[tab].map(i => i.id === id ? { ...i, ...updated, price: Number(updated.price) } : i) }));
-  };
-  const deleteCarouselItem = (tab, id) => {
-    setCarousel(prev => ({ ...prev, [tab]: prev[tab].filter(i => i.id !== id) }));
-  };
-
-  // ── Auth with brute-force protection ──
   const getLoginStatus = () => {
     const lockout = getLockout();
     const now = Date.now();
-    const lockedUntil = lockout.lockedUntil || 0;
-    const isLocked = now < lockedUntil;
-    const attempts = lockout.attempts || 0;
-    const remainingMs = lockedUntil - now;
-    return { isLocked, attempts, remainingMs };
+    const isLocked = now < (lockout.lockedUntil || 0);
+    return { isLocked, attempts: lockout.attempts || 0, remainingMs: (lockout.lockedUntil || 0) - now };
   };
 
   const login = (password) => {
     const lockout = getLockout();
     const now = Date.now();
-
-    // Check if currently locked out
     if (lockout.lockedUntil && now < lockout.lockedUntil) {
       return { success: false, locked: true, remainingMs: lockout.lockedUntil - now };
     }
-
-    // Reset attempts if lockout has expired
-    if (lockout.lockedUntil && now >= lockout.lockedUntil) {
-      saveLockout({ attempts: 0, lockedUntil: 0 });
-    }
+    if (lockout.lockedUntil && now >= lockout.lockedUntil) saveLockout({ attempts: 0, lockedUntil: 0 });
 
     if (password === ADMIN_PASSWORD) {
-      // Correct — clear lockout, set admin session
       saveLockout({ attempts: 0, lockedUntil: 0 });
       setIsAdmin(true);
       sessionStorage.setItem('sd_admin', 'true');
-      // Store login timestamp for session expiry tracking
-      sessionStorage.setItem('sd_login_time', Date.now().toString());
       return { success: true };
     } else {
-      // Wrong password — increment attempts
       const attempts = (lockout.attempts || 0) + 1;
-      const remaining = MAX_ATTEMPTS - attempts;
       if (attempts >= MAX_ATTEMPTS) {
         const lockedUntil = now + LOCKOUT_MINUTES * 60 * 1000;
         saveLockout({ attempts, lockedUntil });
         return { success: false, locked: true, remainingMs: lockedUntil - now, attempts };
       }
       saveLockout({ attempts, lockedUntil: 0 });
-      return { success: false, locked: false, remaining, attempts };
+      return { success: false, locked: false, remaining: MAX_ATTEMPTS - attempts, attempts };
     }
   };
 
   const logout = () => {
     setIsAdmin(false);
     sessionStorage.removeItem('sd_admin');
-    sessionStorage.removeItem('sd_login_time');
   };
 
   return (
     <ProductContext.Provider value={{
       products, addProduct, updateProduct, deleteProduct,
       carousel, addCarouselItem, updateCarouselItem, deleteCarouselItem,
-      isAdmin, login, logout, getLoginStatus,
+      isAdmin, login, logout, getLoginStatus, loading,
     }}>
       {children}
     </ProductContext.Provider>

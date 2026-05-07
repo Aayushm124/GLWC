@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import Header from './Header';
+import TopBar from './TopBar';
 // import Hero from './Hero';
 import ProductGrid from './ProductGrid';
 import CarouselSection from './Carousel';
@@ -27,6 +28,7 @@ function StoreFront() {
     <div style={{ minHeight: '100vh', background: 'var(--bg)', position: 'relative' }}>
       <AmbientOrbs />
       <div style={{ position: 'relative', zIndex: 1 }}>
+        <TopBar />
         <Header />
         <ProductGrid />
         <Divider />

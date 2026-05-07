@@ -1,0 +1,18 @@
+const CLOUD_NAME = 'dpigac2ld';
+const UPLOAD_PRESET = 'glcw_uploads';
+
+export async function uploadToCloudinary(file) {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', UPLOAD_PRESET);
+  formData.append('folder', 'glcw');
+
+  const response = await fetch(
+    `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+    { method: 'POST', body: formData }
+  );
+
+  if (!response.ok) throw new Error('Image upload failed');
+  const data = await response.json();
+  return data.secure_url; // returns the image URL
+}

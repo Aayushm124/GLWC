@@ -50,6 +50,9 @@ export const Icons = {
    size={size} color={color}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></Icon>,
    Bulb: ({ size, color }) => <Icon size={size} color={color}><path d="M15 14c.2-1 .7-1.7 1.5-2.5C17.9 10.2 19 8.7 19 7a7 7 0 10-14 0c0 1.7 1.1 3.2 2.5 4.5.8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6m-6 3h6"/></Icon>,
    Bolt: ({ size, color }) => <Icon size={size} color={color}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></Icon>,
+  Bolt: ({ size, color }) => <Icon size={size} color={color}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></Icon>,
+  Bulb: ({ size, color }) => <Icon size={size} color={color}><path d="M15 14c.2-1 .7-1.7 1.5-2.5C17.9 10.2 19 8.7 19 7a7 7 0 10-14 0c0 1.7 1.1 3.2 2.5 4.5.8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6m-6 3h6"/></Icon>,
+  Mouse: ({ size, color }) => <Icon size={size} color={color}><rect x="5" y="2" width="14" height="20" rx="7"/><line x1="12" y1="2" x2="12" y2="10"/></Icon>,
   Live: ({ size, color }) => <Icon size={size} color={color}><circle cx="12" cy="12" r="2" fill={color} stroke="none"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="10"/></Icon>,
 };
 

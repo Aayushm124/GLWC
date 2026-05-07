@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { uploadToCloudinary } from './cloudinary';
 import { Icons, ProductImagePlaceholder } from './Icons';
 import { useProducts } from './ProductContext';
 
@@ -27,11 +28,18 @@ function Field({ label, children }) {
 function ImageUploader({ value, onChange }) {
   const fileRef = useRef();
   const [dragging, setDragging] = useState(false);
-  const handleFile = (file) => {
+  const [uploading, setUploading] = useState(false);
+  const handleFile = async (file) => {
     if (!file || !file.type.startsWith('image/')) return;
-    const reader = new FileReader();
-    reader.onload = (e) => onChange(e.target.result);
-    reader.readAsDataURL(file);
+    setUploading(true);
+    try {
+      const url = await uploadToCloudinary(file);
+      onChange(url);
+    } catch (err) {
+      alert('Image upload failed. Please try again.');
+    } finally {
+      setUploading(false);
+    }
   };
   return (
     <div onClick={() => fileRef.current.click()}
@@ -59,7 +67,7 @@ function ImageUploader({ value, onChange }) {
       ) : (
         <div style={{ textAlign: 'center', pointerEvents: 'none' }}>
           <Icons.Upload size={36} color="rgba(218,165,50,0.5)" />
-          <div style={{ fontSize: '0.82rem', color: 'rgba(218,165,50,0.7)', fontWeight: 600, marginTop: 8 }}>Click or drag & drop</div>
+          <div style={{ fontSize: '0.82rem', color: 'rgba(218,165,50,0.7)', fontWeight: 600, marginTop: 8 }}>{uploading ? 'Uploading...' : 'Click or drag & drop'}</div>
           <div style={{ fontSize: '0.68rem', color: '#444', marginTop: 4 }}>JPG, PNG, WEBP</div>
         </div>
       )}
