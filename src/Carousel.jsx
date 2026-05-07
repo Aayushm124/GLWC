@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useProducts } from './ProductContext';
+import { Icons } from './Icons'; 
 
 const CARD_WIDTH = 185;
 const CARD_GAP = 14;
@@ -43,16 +44,20 @@ function CarouselCard({ item }) {
         <div style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: '1rem', color: 'var(--gold)', marginBottom: 9 }}>
           ₹{item.price}
         </div>
-        <div style={{ display: 'flex', gap: 5 }}>
-          <a href={item.meesho} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
-            style={{ flex: 1, padding: '5px 0', borderRadius: 8, textAlign: 'center', background: 'linear-gradient(135deg, #f43397, #c0126f)', color: '#fff', fontSize: '0.65rem', fontWeight: 700, textDecoration: 'none' }}>
-            Meesho
-          </a>
-          <a href={item.amazon} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
-            style={{ flex: 1, padding: '5px 0', borderRadius: 8, textAlign: 'center', background: 'linear-gradient(135deg, #ff9900, #e07b00)', color: '#000', fontSize: '0.65rem', fontWeight: 700, textDecoration: 'none' }}>
-            Amazon
-          </a>
-        </div>
+       <div style={{ display: 'flex', gap: 5 }}>
+  {item.meesho && (
+    <a href={item.meesho} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
+      style={{ flex: 1, padding: '5px 0', borderRadius: 8, textAlign: 'center', background: 'linear-gradient(135deg, #f43397, #c0126f)', color: '#fff', fontSize: '0.65rem', fontWeight: 700, textDecoration: 'none' }}>
+      Normal
+    </a>
+  )}
+  {item.amazon && (
+    <a href={item.amazon} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
+      style={{ flex: 1, padding: '5px 0', borderRadius: 8, textAlign: 'center', background: 'linear-gradient(135deg, #ff9900, #e07b00)', color: '#000', fontSize: '0.65rem', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
+      <Icons.Bolt size={11} color="#000" /> Express
+    </a>
+  )}
+</div>
       </div>
     </div>
   );
@@ -152,11 +157,10 @@ export default function CarouselSection() {
         </div>
       </div>
 
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: 'relative', overflow: 'hidden', paddingTop: '10px' }}>
         <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 60, zIndex: 10, background: 'linear-gradient(90deg, var(--bg), transparent)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 60, zIndex: 10, background: 'linear-gradient(270deg, var(--bg), transparent)', pointerEvents: 'none' }} />
-        <div style={{ overflow: 'hidden', padding: '0.5rem 2.5rem 1rem', cursor: isDragging ? 'grabbing' : 'grab' }}
-          onMouseDown={e => onDragStart(e.clientX)}
+<div style={{ overflow: 'visible', padding: '0.5rem 2.5rem 1rem', cursor: isDragging ? 'grabbing' : 'grab' }}          onMouseDown={e => onDragStart(e.clientX)}
           onMouseMove={e => onDragMove(e.clientX)}
           onMouseUp={onDragEnd} onMouseLeave={onDragEnd}
           onTouchStart={e => onDragStart(e.touches[0].clientX)}

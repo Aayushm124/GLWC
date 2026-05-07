@@ -3,16 +3,17 @@ import ProductCard from './ProductCard';
 import { useProducts } from './ProductContext';
 import { Icons } from './Icons';
 
+
 const FILTERS = [
   { label: 'All', key: 'all', Icon: Icons.Grid },
-  { label: 'Fashion', key: 'fashion', Icon: Icons.Fashion },
-  { label: 'Home', key: 'home', Icon: Icons.Home },
-  { label: 'Electronics', key: 'electronics', Icon: Icons.Electronics },
-  { label: 'Beauty', key: 'beauty', Icon: Icons.Beauty },
+  { label: 'Mouse Pads', key: 'mouse', Icon: Icons.Grid },
+  { label: 'LED Products', key: 'led', Icon: Icons.Bulb },
+  { label: 'Home Decor', key: 'home', Icon: Icons.Home },
+
 ];
 
 export default function ProductGrid({ sectionRef }) {
-  const [active, setActive] = useState('all');
+  const [active, setActive] = useState('mouse');
   const { products } = useProducts();
   const filtered = active === 'all' ? products : products.filter(p => p.cat === active);
 
@@ -37,7 +38,7 @@ export default function ProductGrid({ sectionRef }) {
               padding: '0.35rem 0.9rem', borderRadius: 999, cursor: 'pointer', transition: 'all 0.2s',
               border: `1px solid ${isActive ? 'rgba(218,165,50,0.5)' : 'rgba(255,255,255,0.07)'}`,
               background: isActive ? 'rgba(218,165,50,0.12)' : 'transparent',
-              color: isActive ? 'var(--gold)' : 'var(--muted)',
+              color: isActive ? 'var(--gold)' : '#c8c8d8',
               fontSize: '0.78rem', fontWeight: isActive ? 600 : 400,
               display: 'flex', alignItems: 'center', gap: 6,
             }}>

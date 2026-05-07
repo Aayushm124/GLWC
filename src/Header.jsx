@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Icons } from './Icons';
+import logo from './logo.png';
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -19,19 +20,32 @@ export default function Header() {
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       transition: 'all 0.4s ease',
     }}>
-      <div>
-        <div style={{
-          fontFamily: 'Syne', fontWeight: 800, fontSize: '1.6rem', letterSpacing: '-0.01em',
-          background: 'linear-gradient(120deg, #daa532 0%, #f0c060 50%, #daa532 100%)',
-          backgroundSize: '200% auto', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-          animation: 'shimmer 4s linear infinite',
-        }}>ShopDirect</div>
-        <div style={{ fontSize: '0.62rem', letterSpacing: '0.18em', color: 'rgba(218,165,50,0.45)', textTransform: 'uppercase', marginTop: '-2px' }}>
-          Meesho · Amazon · Best Prices
+
+      {/* Logo + Title */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+        <img src={logo} alt="GLCW Logo" style={{
+          width: 52, height: 52, borderRadius: '50%', objectFit: 'cover', flexShrink: 0,
+        }} />
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <span style={{
+            fontFamily: 'Syne', fontWeight: 800, fontSize: '1.4rem', lineHeight: 1.1,
+            background: 'linear-gradient(120deg, #daa532 0%, #f0c060 50%, #daa532 100%)',
+            backgroundSize: '200% auto', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+            animation: 'shimmer 4s linear infinite',
+          }}>GLCW</span>
+          <span style={{
+            fontSize: '0.55rem', letterSpacing: '0.12em',
+            color: 'rgba(218,165,50,0.5)', textTransform: 'uppercase',
+            lineHeight: 1, marginTop: 3, whiteSpace: 'nowrap',
+          }}>
+            Gupta Laser Cutting Works
+          </span>
         </div>
       </div>
+
+      {/* Nav */}
       <nav style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-        {['Products', 'Deals', 'Contact'].map(n => (
+        {['Catalogue', 'Deals', 'Contact'].map(n => (
           <span key={n} style={{ fontSize: '0.82rem', color: 'var(--muted)', cursor: 'pointer', fontWeight: 500, letterSpacing: '0.05em', transition: 'color 0.2s' }}
             onMouseEnter={e => e.target.style.color = 'var(--gold)'}
             onMouseLeave={e => e.target.style.color = 'var(--muted)'}

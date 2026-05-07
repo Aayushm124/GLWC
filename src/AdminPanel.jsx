@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Icons, ProductImagePlaceholder } from './Icons';
 import { useProducts } from './ProductContext';
 
-const CATEGORIES = ['fashion', 'electronics', 'home', 'beauty'];
+const CATEGORIES = [ 'mouse', 'home',  'led'];
 const BADGES = ['NEW', 'HOT', 'SALE'];
 const CAROUSEL_TABS = [
   { key: 'new', label: 'New Arrivals' },
@@ -68,8 +68,22 @@ function ImageUploader({ value, onChange }) {
 }
 
 /* ─────────────── PRODUCT FORM ─────────────── */
+/* ─────────────── PRODUCT FORM ─────────────── */
 function ProductForm({ initial, onSave, onCancel }) {
-  const empty = { name: '', cat: 'fashion', image: '', price: '', old: '', desc: '', meesho: '', amazon: '', badges: [], colors: ['#daa532'] };
+  const empty = { 
+    name: '', 
+    cat: 'mouse', 
+    image: '', 
+    image2: '', 
+    image3: '', 
+    price: '', 
+    old: '', 
+    desc: '', 
+    meesho: '', 
+    amazon: '', 
+    badges: [], 
+    colors: ['#daa532'] 
+  };
   const [form, setForm] = useState(initial || empty);
   const [errors, setErrors] = useState({});
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
@@ -80,8 +94,8 @@ function ProductForm({ initial, onSave, onCancel }) {
     if (!form.price || isNaN(form.price)) e.price = 'Valid price required';
     if (!form.old || isNaN(form.old)) e.old = 'Valid MRP required';
     if (!form.image) e.image = 'Upload a product image';
-    if (!form.meesho.startsWith('http')) e.meesho = 'Valid URL required';
-    if (!form.amazon.startsWith('http')) e.amazon = 'Valid URL required';
+ if (form.meesho && !form.meesho.startsWith('http')) e.meesho = 'Enter a valid URL';
+if (form.amazon && !form.amazon.startsWith('http')) e.amazon = 'Enter a valid URL';
     setErrors(e); return Object.keys(e).length === 0;
   };
 
@@ -90,9 +104,15 @@ function ProductForm({ initial, onSave, onCancel }) {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 2rem' }}>
         {/* Left */}
         <div>
-          <Field label="Product Image">
+       <Field label="Product Image 1 (Main) *">
             <ImageUploader value={form.image} onChange={v => set('image', v)} />
             {errors.image && <span style={{ fontSize: '0.7rem', color: '#ef4444', marginTop: 4, display: 'block' }}>{errors.image}</span>}
+          </Field>
+          <Field label="Product Image 2 (optional)">
+            <ImageUploader value={form.image2} onChange={v => set('image2', v)} />
+          </Field>
+          <Field label="Product Image 3 (optional)">
+            <ImageUploader value={form.image3} onChange={v => set('image3', v)} />
           </Field>
           <Field label="Badges">
             <div style={{ display: 'flex', gap: 8 }}>
@@ -191,8 +211,8 @@ function CarouselForm({ initial, onSave, onCancel }) {
     if (!form.name.trim()) e.name = 'Required';
     if (!form.price || isNaN(form.price)) e.price = 'Valid price required';
     if (!form.image) e.image = 'Upload an image';
-    if (!form.meesho.startsWith('http')) e.meesho = 'Valid URL required';
-    if (!form.amazon.startsWith('http')) e.amazon = 'Valid URL required';
+  if (form.meesho && !form.meesho.startsWith('http')) e.meesho = 'Enter a valid URL';
+if (form.amazon && !form.amazon.startsWith('http')) e.amazon = 'Enter a valid URL';
     setErrors(e); return Object.keys(e).length === 0;
   };
 

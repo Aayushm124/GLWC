@@ -7,8 +7,8 @@ export default function Footer() {
       <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2.5rem', marginBottom: '2.5rem' }}>
         {/* Brand */}
         <div>
-          <div style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: '1.6rem', background: 'linear-gradient(120deg, #daa532, #f0c060)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginBottom: 8 }}>ShopDirect</div>
-          <p style={{ fontSize: '0.8rem', color: 'var(--muted)', lineHeight: 1.8, maxWidth: 220 }}>Curated daily deals linking directly to Meesho & Amazon. No middlemen, just great prices.</p>
+          <div style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: '1.6rem', background: 'linear-gradient(120deg, #daa532, #f0c060)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', marginBottom: 8 }}>GLCW</div>
+          <p style={{ fontSize: '0.8rem', color: 'var(--muted)', lineHeight: 1.8, maxWidth: 220 }}>Gupta laser cutting works</p>
           <div style={{ display: 'flex', gap: 10, marginTop: '1rem' }}>
             {[Icons.Instagram, Icons.Zap, Icons.Mail].map((Icon, i) => (
               <div key={i} style={{ width: 34, height: 34, borderRadius: '50%', background: 'rgba(218,165,50,0.08)', border: '1px solid rgba(218,165,50,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s' }}

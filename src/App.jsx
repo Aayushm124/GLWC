@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import Header from './Header';
-import Hero from './Hero';
+// import Hero from './Hero';
 import ProductGrid from './ProductGrid';
 import CarouselSection from './Carousel';
 import Footer from './Footer';
@@ -23,15 +23,12 @@ function Divider() {
 }
 
 function StoreFront() {
-  const productsRef = useRef();
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg)', position: 'relative' }}>
       <AmbientOrbs />
       <div style={{ position: 'relative', zIndex: 1 }}>
         <Header />
-        <Hero onExplore={() => productsRef.current?.scrollIntoView({ behavior: 'smooth' })} />
-        <Divider />
-        <ProductGrid sectionRef={productsRef} />
+        <ProductGrid />
         <Divider />
         <CarouselSection />
         <Divider />

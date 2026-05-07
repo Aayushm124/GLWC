@@ -37,8 +37,8 @@ export function ProductProvider({ children }) {
   useEffect(() => { localStorage.setItem('sd_carousel', JSON.stringify(carousel)); }, [carousel]);
 
   // Products CRUD
-  const addProduct = (product) => {
-    setProducts(prev => [{ ...product, id: Date.now(), price: Number(product.price), old: Number(product.old), badges: product.badges || [], colors: product.colors || ['#daa532'] }, ...prev]);
+const addProduct = (product) => {
+    setProducts(prev => [{ ...product, id: Date.now(), price: Number(product.price), old: Number(product.old), badges: product.badges || [], colors: product.colors || ['#daa532'], image2: product.image2 || '', image3: product.image3 || '' }, ...prev]);
   };
   const updateProduct = (id, updated) => {
     setProducts(prev => prev.map(p => p.id === id ? { ...p, ...updated, price: Number(updated.price), old: Number(updated.old) } : p));

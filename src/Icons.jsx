@@ -46,7 +46,10 @@ export const Icons = {
   ExternalLink: ({ size, color }) => <Icon size={size} color={color}><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></Icon>,
   Filter: ({ size, color }) => <Icon size={size} color={color}><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></Icon>,
   Grid: ({ size, color }) => <Icon size={size} color={color}><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></Icon>,
-  Zap: ({ size, color }) => <Icon size={size} color={color}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></Icon>,
+  Zap: ({ size, color }) => <Icon
+   size={size} color={color}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></Icon>,
+   Bulb: ({ size, color }) => <Icon size={size} color={color}><path d="M15 14c.2-1 .7-1.7 1.5-2.5C17.9 10.2 19 8.7 19 7a7 7 0 10-14 0c0 1.7 1.1 3.2 2.5 4.5.8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6m-6 3h6"/></Icon>,
+   Bolt: ({ size, color }) => <Icon size={size} color={color}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></Icon>,
   Live: ({ size, color }) => <Icon size={size} color={color}><circle cx="12" cy="12" r="2" fill={color} stroke="none"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="10"/></Icon>,
 };
 
