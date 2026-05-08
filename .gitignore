@@ -3,3 +3,4 @@ build
 .env
 .cloudinary.js
 .firebase.js
+.ProductContext.jsx

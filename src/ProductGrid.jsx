@@ -94,10 +94,7 @@ export default function ProductGrid({ sectionRef }) {
         display: 'grid',
         gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(5, 1fr)',
         gap: isMobile ? '0.75rem' : '1.25rem',
-        maxHeight: isMobile ? '640px' : 'none',
-        overflowY: isMobile ? 'auto' : 'visible',
         scrollbarWidth: 'none',
-        WebkitOverflowScrolling: 'touch',
       }}>
         {filtered.map((p, i) => (
           <ProductCard key={p.id} product={p} index={i} isMobile={isMobile} />

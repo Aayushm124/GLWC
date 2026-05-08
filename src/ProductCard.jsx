@@ -23,11 +23,13 @@ export default function ProductCard({ product, index, isMobile = false }) {
           observer.disconnect();
         }
       },
-      { threshold: 0.1, rootMargin: '0px 0px -40% 0px' }
+      { threshold: 0.08, rootMargin: '0px 0px -8% 0px' }
     );
     if (cardRef.current) observer.observe(cardRef.current);
     return () => observer.disconnect();
   }, []);
+
+  const staggerDelay = index < 4 ? `${(index % 2) * 0.12 + Math.floor(index / 2) * 0.1}s` : '0s';
 
   return (
     <div
@@ -36,7 +38,7 @@ export default function ProductCard({ product, index, isMobile = false }) {
       onMouseLeave={() => setHovered(false)}
       onClick={() => window.location.href = `/product/${product.id}`}
       className="fade-in-card"
-      style={{ cursor: 'pointer',minWidth: 0 }}
+      style={{ cursor: 'pointer', minWidth: 0, transitionDelay: staggerDelay }}
     >
       <div style={{
         transform: `translateY(${hovered ? '-6px' : '0'})`,
@@ -148,7 +150,7 @@ export default function ProductCard({ product, index, isMobile = false }) {
           </div>
 
    <div style={{
-  fontFamily: 'Syne', fontWeight: 700,
+  fontFamily: 'Inter', fontWeight: 700,
   fontSize: isMobile ? '0.78rem' : '0.95rem',
   color: 'var(--text)', marginBottom: isMobile ? 2 : 4, lineHeight: 1.3,
   whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
@@ -166,7 +168,7 @@ export default function ProductCard({ product, index, isMobile = false }) {
             marginBottom: isMobile ? '0.5rem' : '0.75rem',
             marginTop: isMobile ? '0.25rem' : 0,
           }}>
-            <span style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: isMobile ? '1rem' : '1.2rem', color: 'var(--gold)' }}>₹{product.price}</span>
+            <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: isMobile ? '1rem' : '1.2rem', color: '#1A1A1A' }}>₹{product.price}</span>
             <span style={{ fontSize: isMobile ? '0.65rem' : '0.78rem', color: 'var(--muted)', textDecoration: 'line-through' }}>₹{product.old}</span>
           </div>
 

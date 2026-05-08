@@ -33,7 +33,7 @@ function StoreFront() {
         <Header />
         <ProductGrid />
         <Divider />
-        <div id="carousel-section"><CarouselSection /></div>
+        <CarouselSection />
         <Divider />
         <Footer />
       </div>

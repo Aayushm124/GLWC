@@ -63,9 +63,9 @@ border: `1px solid ${hovered ? 'rgba(184,134,11,0.4)' : 'rgba(180,150,80,0.15)'}
           {item.name}
         </div>
         <div style={{
-          fontFamily: 'Syne', fontWeight: 700,
+          fontFamily: 'Inter', fontWeight: 700,
           fontSize: isMobile ? '0.85rem' : '1rem',
-          color: 'var(--gold)', marginBottom: isMobile ? 6 : 9,
+          color: '#1A1A1A', marginBottom: isMobile ? 6 : 9,
         }}>
           ₹{item.price}
         </div>
@@ -87,7 +87,7 @@ border: `1px solid ${hovered ? 'rgba(184,134,11,0.4)' : 'rgba(180,150,80,0.15)'}
               style={{
                 flex: 1, padding: isMobile ? '3px 0' : '5px 0',
                 borderRadius: 8, textAlign: 'center',
-                background: 'linear-gradient(135deg, #ff9900, #e07b00)',
+                background: 'linear-gradient(135deg, rgb(72, 255, 0), rgb(45, 224, 0))',
                 color: '#000', fontSize: isMobile ? '0.58rem' : '0.65rem',
                 fontWeight: 700, textDecoration: 'none',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 3,

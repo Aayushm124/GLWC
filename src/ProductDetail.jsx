@@ -114,8 +114,8 @@ function RelatedCarousel({ products, currentId, category }) {
               <div key={`${p.id}-${index}`} onClick={() => { window.location.href = `/product/${p.id}`; }} style={{ width: cardWidth, flexShrink: 0, borderRadius: 14, background: '#fff', border: '1px solid rgba(180,150,80,0.15)', cursor: 'pointer' }}>
                 <div style={{ width: '100%', aspectRatio: '1/1' }}><img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} /></div>
                 <div style={{ padding: '0.6rem 0.7rem' }}>
-                  <div style={{ fontFamily: 'Syne', fontWeight: 600, fontSize: '0.8rem', marginBottom: 4 }}>{p.name}</div>
-                  <div style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif', fontWeight: 700, fontSize: '0.95rem', color: 'var(--gold)' }}>₹{p.price}</div>
+                  <div style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '0.8rem', marginBottom: 4 }}>{p.name}</div>
+                  <div style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: '0.95rem', color: '#1A1A1A' }}>₹{p.price}</div>
                 </div>
               </div>
             );
@@ -164,12 +164,12 @@ export default function ProductDetail() {
     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, 
     padding: '1.1rem', borderRadius: 16, textDecoration: 'none', fontSize: '1.05rem', fontWeight: 700,
     transition: 'all 0.3s ease',
-    background: type === 'amazon' 
-      ? 'linear-gradient(135deg, #22c55e, #15803d)' 
+    background: type === 'amazon'
+      ? 'linear-gradient(135deg, rgb(72, 255, 0), rgb(45, 224, 0))'
       : 'linear-gradient(135deg, #f43397, #c0126f)',
-    color: '#fff',
-    boxShadow: type === 'amazon' 
-      ? '0 4px 15px rgba(34, 197, 94, 0.3)' 
+    color: type === 'amazon' ? '#000' : '#fff',
+    boxShadow: type === 'amazon'
+      ? '0 4px 15px rgba(72, 255, 0, 0.3)'
       : '0 4px 15px rgba(244, 51, 151, 0.3)',
     border: 'none',
     cursor: 'pointer'
@@ -196,7 +196,7 @@ export default function ProductDetail() {
           <Icons.ArrowLeft size={18} />
           <span style={{ lineHeight: 1 }}>Back</span>
         </button>
-        <div style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: '1.1rem', background: 'linear-gradient(120deg, #8B6000, #b8860b)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>GLCW</div>
+        <div onClick={() => window.location.href = '/'} style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: '1.1rem', background: 'linear-gradient(120deg, #8B6000, #b8860b)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer' }}>GLCW</div>
         <button onClick={() => setWished(!wished)} style={{ background: 'transparent', border: 'none' }}><Icons.Heart size={20} color={wished ? '#ef4444' : 'var(--muted)'} filled={wished} /></button>
       </div>
 
@@ -264,11 +264,16 @@ export default function ProductDetail() {
   ({product.reviews || '0'} reviews)
 </span>
   </div>
-          <h1 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: 'clamp(1.3rem, 3vw, 2rem)', marginBottom: '1rem' }}>{product.name}</h1>
+          <h1 style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 'clamp(1.3rem, 3vw, 2rem)', marginBottom: '1rem' }}>{product.name}</h1>
           
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-            <span style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif', fontWeight: 800, fontSize: '2.2rem', color: 'var(--gold)' }}>₹{product.price}</span>
-            {product.old && <span style={{ fontFamily: 'Helvetica, Arial, sans-serif', textDecoration: 'line-through', color: 'var(--muted)' }}>₹{product.old}</span>}
+            <span style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: '2.2rem', color: '#1A1A1A' }}>₹{product.price}</span>
+            {product.old && (
+              <span style={{ fontFamily: 'Helvetica, Arial, sans-serif', color: 'var(--muted)', position: 'relative', display: 'inline-block' }}>
+                ₹{product.old}
+                <span style={{ position: 'absolute', top: '50%', left: 0, right: 0, height: '1.5px', background: 'var(--muted)', transform: 'translateY(-50%)' }} />
+              </span>
+            )}
             {disc > 0 && <span style={{ padding: '4px 12px', borderRadius: 999, background: '#c52222', color: '#fff', fontSize: '0.8rem', fontWeight: 700 }}>{disc}% OFF</span>}
           </div>
 
