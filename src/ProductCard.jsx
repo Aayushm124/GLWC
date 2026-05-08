@@ -175,10 +175,10 @@ export default function ProductCard({ product, index, isMobile = false }) {
           {/* Buy buttons */}
           <div style={{ display: 'grid', gridTemplateColumns: `${product.meesho ? '1fr' : ''} ${product.amazon ? '1fr' : ''}`.trim(), gap: isMobile ? 5 : 6 }}>
             {product.meesho && (
-              <a href={product.meesho} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{
+              <button onClick={e => { e.stopPropagation(); e.preventDefault(); window.open(product.meesho, '_blank', 'noopener,noreferrer'); }} style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: isMobile ? 3 : 5,
                 padding: isMobile ? '0.38rem 0' : '0.55rem 0',
-                borderRadius: isMobile ? 8 : 10, textDecoration: 'none',
+                borderRadius: isMobile ? 8 : 10, border: 'none', cursor: 'pointer',
                 background: 'linear-gradient(135deg, #f43397, #c0126f)', color: '#fff',
                 fontSize: isMobile ? '0.6rem' : '0.72rem', fontWeight: 700, transition: 'transform 0.2s',
               }}
@@ -186,13 +186,13 @@ export default function ProductCard({ product, index, isMobile = false }) {
                 onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
               >
                 <Icons.ShoppingBag size={isMobile ? 10 : 13} color="#fff" /> Normal
-              </a>
+              </button>
             )}
             {product.amazon && (
-              <a href={product.amazon} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} style={{
+              <button onClick={e => { e.stopPropagation(); e.preventDefault(); window.open(product.amazon, '_blank', 'noopener,noreferrer'); }} style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: isMobile ? 3 : 5,
                 padding: isMobile ? '0.38rem 0' : '0.55rem 0',
-                borderRadius: isMobile ? 8 : 10, textDecoration: 'none',
+                borderRadius: isMobile ? 8 : 10, border: 'none', cursor: 'pointer',
                 background: 'linear-gradient(135deg, #48ff00, #2de000)', color: '#000',
                 fontSize: isMobile ? '0.6rem' : '0.72rem', fontWeight: 700, transition: 'transform 0.2s',
               }}
@@ -200,7 +200,7 @@ export default function ProductCard({ product, index, isMobile = false }) {
                 onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
               >
                 <Icons.Bolt size={isMobile ? 10 : 13} color="#000" /> Express
-              </a>
+              </button>
             )}
           </div>
         </div>

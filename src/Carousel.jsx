@@ -103,8 +103,6 @@ border: `1px solid ${hovered ? 'rgba(184,134,11,0.4)' : 'rgba(180,150,80,0.15)'}
 
 const TABS = [
   { key: 'new', label: 'New Arrivals' },
-  { key: 'bestseller', label: 'Best Sellers' },
-  { key: 'handpicked', label: 'Hand-Picked' },
 ];
 
 export default function CarouselSection() {
@@ -186,8 +184,8 @@ export default function CarouselSection() {
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         marginBottom: '1rem', padding, flexWrap: 'wrap', gap: '0.5rem',
       }}>
-        {/* Tabs */}
-        <div style={{ display: 'flex', gap: '0.35rem', overflowX: isMobile ? 'auto' : 'visible', scrollbarWidth: 'none' }}>
+        {/* Tabs — hidden while only one tab exists */}
+        <div style={{ display: TABS.length > 1 ? 'flex' : 'none', gap: '0.35rem', overflowX: isMobile ? 'auto' : 'visible', scrollbarWidth: 'none' }}>
           {TABS.map(t => (
             <button key={t.key} onClick={() => setActiveTab(t.key)} style={{
               padding: isMobile ? '0.25rem 0.6rem' : '0.35rem 1rem',

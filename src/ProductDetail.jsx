@@ -288,14 +288,14 @@ export default function ProductDetail() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
             {product.meesho && (
-              <a href={product.meesho} className="shimmer-btn" style={buyButtonStyle('meesho')}>
+              <button onClick={e => { e.stopPropagation(); e.preventDefault(); window.open(product.meesho, '_blank', 'noopener,noreferrer'); }} className="shimmer-btn" style={buyButtonStyle('meesho')}>
                 <Icons.ShoppingBag size={20} /> Buy Normal
-              </a>
+              </button>
             )}
             {product.amazon && (
-              <a href={product.amazon} className="shimmer-btn" style={buyButtonStyle('amazon')}>
+              <button onClick={e => { e.stopPropagation(); e.preventDefault(); window.open(product.amazon, '_blank', 'noopener,noreferrer'); }} className="shimmer-btn" style={buyButtonStyle('amazon')}>
                 <Icons.Bolt size={20} /> Buy Express
-              </a>
+              </button>
             )}
           </div>
         </div>

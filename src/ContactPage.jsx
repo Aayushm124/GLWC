@@ -87,9 +87,9 @@ export default function ContactPage() {
                 <div style={{ width: 48, height: 48, borderRadius: 12, background: 'rgba(184,134,11,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <Icons.Mail size={22} color="var(--gold)" />
                 </div>
-                <div>
+                <div style={{ minWidth: 0 }}>
                   <div style={{ fontSize: '0.65rem', letterSpacing: '0.15em', color: 'var(--muted)', textTransform: 'uppercase', fontWeight: 600, marginBottom: 4 }}>Email Us</div>
-                  <div style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text)' }}>guptalasercuttingworks@gmail.com</div>
+                  <div style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text)', wordBreak: 'break-all' }}>guptalasercuttingworks@gmail.com</div>
                   <div style={{ fontSize: '0.72rem', color: 'var(--muted)', marginTop: 2 }}>We reply within 24 hours</div>
                 </div>
               </div>
