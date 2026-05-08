@@ -9,7 +9,7 @@ const CARD_GAP = 14;
 const CARD_GAP_MOBILE = 10;
 const AUTO_INTERVAL = 2800;
 
-function CarouselCard({ item, isMobile }) {
+function CarouselCard({ item, isMobile,products }) {
   const [hovered, setHovered] = useState(false);
   const cardWidth = isMobile ? CARD_WIDTH_MOBILE : CARD_WIDTH;
 
@@ -17,8 +17,19 @@ function CarouselCard({ item, isMobile }) {
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onClick={() => {
+  const match = products.find(p => 
+    p.name === item.name || 
+    p.name.toLowerCase().includes(item.name.toLowerCase()) ||
+    item.name.toLowerCase().includes(p.name.toLowerCase())
+  );
+  if (match) window.location.href = `/product/${match.id}`;
+  else if (item.meesho) window.open(item.meesho, '_blank');
+  else if (item.amazon) window.open(item.amazon, '_blank');
+}}
       style={{
         width: cardWidth, flexShrink: 0, borderRadius: isMobile ? 12 : 16, overflow: 'hidden',
+        cursor: 'pointer',
          background: 'linear-gradient(160deg, #ffffff, #faf7f2)',
 border: `1px solid ${hovered ? 'rgba(184,134,11,0.4)' : 'rgba(180,150,80,0.15)'}`,
         overflow: 'hidden', position: 'relative',
@@ -97,7 +108,7 @@ const TABS = [
 ];
 
 export default function CarouselSection() {
-  const { carousel } = useProducts();
+  const { carousel,products } = useProducts();
   const isMobile = useIsMobile();
   const [activeTab, setActiveTab] = useState('new');
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -229,8 +240,7 @@ export default function CarouselSection() {
             willChange: 'transform',
           }}>
             {looped.map((item, i) => (
-              <CarouselCard key={`${activeTab}-${i}`} item={item} isMobile={isMobile} />
-            ))}
+<CarouselCard key={`${activeTab}-${i}`} item={item} isMobile={isMobile} products={products} />            ))}
           </div>
         </div>
       </div>

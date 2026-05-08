@@ -36,7 +36,7 @@ export default function Footer() {
         {/* Quick links */}
         <div>
           <div style={{ fontSize: '0.6rem', letterSpacing: '0.15em', color: '#7a5200', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.75rem' }}>Quick Links</div>
-          {['New Arrivals', 'Best Sellers', 'Home Decor', 'LED Products', 'Mouse Pads'].map(l => (
+          {[ 'Home Decor', 'LED Products', 'Mouse Pads'].map(l => (
             <div key={l} style={{ fontSize: '0.78rem', color: 'var(--muted)', marginBottom: '0.4rem', cursor: 'pointer', transition: 'color 0.2s' }}
               onMouseEnter={e => e.target.style.color = 'var(--gold)'}
               onMouseLeave={e => e.target.style.color = 'var(--muted)'}

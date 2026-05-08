@@ -26,8 +26,7 @@ export const Icons = {
   X: ({ size, color }) => <Icon size={size} color={color}><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></Icon>,
   ArrowLeft: ({ size, color }) => <Icon size={size} color={color}><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></Icon>,
   ArrowRight: ({ size, color }) => <Icon size={size} color={color}><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></Icon>,
-  ChevronLeft: ({ size, color }) => <Icon size={size} color={color}><polyline points="15 18 9 12 15 6"/></Icon>,
-  ChevronRight: ({ size, color }) => <Icon size={size} color={color}><polyline points="9 18 15 12 9 6"/></Icon>,
+ChevronLeft: ({ size, color }) => <Icon size={size} color={color}><polyline points="15 18 9 12 15 6"/></Icon>,  ChevronRight: ({ size, color }) => <Icon size={size} color={color}><polyline points="9 18 15 12 9 6"/></Icon>,
   Eye: ({ size, color }) => <Icon size={size} color={color}><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></Icon>,
   LogOut: ({ size, color }) => <Icon size={size} color={color}><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></Icon>,
   Lock: ({ size, color }) => <Icon size={size} color={color}><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></Icon>,
@@ -53,6 +52,8 @@ export const Icons = {
   Bolt: ({ size, color }) => <Icon size={size} color={color}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></Icon>,
   Bulb: ({ size, color }) => <Icon size={size} color={color}><path d="M15 14c.2-1 .7-1.7 1.5-2.5C17.9 10.2 19 8.7 19 7a7 7 0 10-14 0c0 1.7 1.1 3.2 2.5 4.5.8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6m-6 3h6"/></Icon>,
   Mouse: ({ size, color }) => <Icon size={size} color={color}><rect x="5" y="2" width="14" height="20" rx="7"/><line x1="12" y1="2" x2="12" y2="10"/></Icon>,
+  Truck: ({ size, color }) => <Icon size={size} color={color}><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></Icon>,
+  Shield: ({ size, color }) => <Icon size={size} color={color}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></Icon>,
   Live: ({ size, color }) => <Icon size={size} color={color}><circle cx="12" cy="12" r="2" fill={color} stroke="none"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="10"/></Icon>,
 };
 

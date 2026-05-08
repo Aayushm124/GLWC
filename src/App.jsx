@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
 import Header from './Header';
-import TopBar from './TopBar';
-// import Hero from './Hero';
 import ProductGrid from './ProductGrid';
 import CarouselSection from './Carousel';
 import Footer from './Footer';
 import AdminPanel from './AdminPanel';
+import ProductDetail from './ProductDetail';
+import TopBar from './TopBar';
 import { ProductProvider, ADMIN_SECRET_PATH } from './ProductContext';
 
 function AmbientOrbs() {
@@ -40,7 +40,6 @@ function StoreFront() {
   );
 }
 
-// 404 page shown if someone tries /admin or any wrong path
 function NotFound() {
   return (
     <div style={{ minHeight: '100vh', background: '#04040a', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', fontFamily: 'Instrument Sans, sans-serif' }}>
@@ -57,12 +56,14 @@ export default function App() {
   const path = window.location.pathname;
   const isAdmin = path === ADMIN_SECRET_PATH;
   const isHome = path === '/' || path === '';
-  
+  const isProduct = path.startsWith('/product/');
+
   return (
     <ProductProvider>
       {isHome && <StoreFront />}
       {isAdmin && <AdminPanel />}
-      {!isHome && !isAdmin && <NotFound />}
+      {isProduct && <ProductDetail />}
+      {!isHome && !isAdmin && !isProduct && <NotFound />}
     </ProductProvider>
   );
 }

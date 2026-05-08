@@ -49,15 +49,22 @@ export default function Header() {
 
         {/* Desktop Nav — hidden on mobile via CSS */}
         <nav className="header-nav" style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-          {['Catalogue', 'Deals', 'Contact'].map(n => (
-            <span key={n} style={{
-              fontSize: '0.82rem', color: 'var(--muted)', cursor: 'pointer',
-              fontWeight: 500, letterSpacing: '0.05em', transition: 'color 0.2s',
-            }}
-              onMouseEnter={e => e.target.style.color = 'var(--gold)'}
-              onMouseLeave={e => e.target.style.color = 'var(--muted)'}
-            >{n}</span>
-          ))}
+        {['Catalogue', 'Deals', 'Contact'].map(n => (
+  <span key={n} style={{
+    fontSize: '0.82rem', color: 'var(--muted)', cursor: 'pointer',
+    fontWeight: 500, letterSpacing: '0.05em', transition: 'color 0.2s',
+  }}
+    onClick={() => {
+      if (n === 'Catalogue') {
+        // Set filter to All and scroll to products
+        window.dispatchEvent(new CustomEvent('setFilter', { detail: 'all' }));
+        document.getElementById('product-section')?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }}
+    onMouseEnter={e => e.target.style.color = 'var(--gold)'}
+    onMouseLeave={e => e.target.style.color = 'var(--muted)'}
+  >{n}</span>
+))}
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <Icons.Live size={14} color="#22c55e" />
             <span style={{ fontSize: '0.72rem', color: 'var(--muted)' }}>Live deals</span>
@@ -98,7 +105,15 @@ export default function Header() {
       }}>
         <div style={{ padding: '0.75rem 1.5rem 1.25rem' }}>
           {['Catalogue', 'Deals', 'Contact'].map((n, i) => (
-            <div key={n} onClick={() => setMenuOpen(false)} style={{
+  <div key={n} onClick={() => {
+    setMenuOpen(false);
+    if (n === 'Catalogue') {
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('setFilter', { detail: 'all' }));
+        document.getElementById('product-section')?.scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    }
+  }} style={{
               padding: '0.75rem 0',
               borderBottom: i < 2 ? '1px solid rgba(184,134,11,0.1)' : 'none',
               fontSize: '0.95rem', fontWeight: 600, color: '#5a3e00',
