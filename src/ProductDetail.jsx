@@ -106,7 +106,7 @@ function RelatedCarousel({ products, currentId, category }) {
            onTouchEnd={onDragEnd}>
         <div onTransitionEnd={handleTransitionEnd} style={{ display: 'flex', gap: cardGap, transform: `translateX(${-(offset) + dragOffset}px)`, transition: (isDragging || !transitionEnabled) ? 'none' : 'transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94)' }}>
           {related.map((p, index) => (
-            <div key={`${p.id}-${index}`} onClick={() => { window.location.href = `/product/${p.id}`; }} style={{ width: cardWidth, flexShrink: 0, borderRadius: 14, background: '#fff', border: '1px solid rgba(180,150,80,0.15)', cursor: 'pointer' }}>
+            <div key={`${p.id}-${index}`} onClick={() => { window.location.href = `/product/${p.id}`; }} style={{ width: cardWidth, flexShrink: 0, borderRadius: 14, overflow: 'hidden', background: '#fff', border: '1px solid rgba(180,150,80,0.15)', cursor: 'pointer' }}>
               <div style={{ width: '100%', aspectRatio: '1/1' }}><img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} /></div>
               <div style={{ padding: '0.6rem 0.7rem' }}>
                 <div style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '0.8rem', marginBottom: 4 }}>{p.name}</div>
