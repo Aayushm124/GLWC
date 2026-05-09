@@ -91,6 +91,8 @@ function ProductForm({ initial, onSave, onCancel }) {
     if (!form.image) e.image = 'Upload a product image';
     if (form.meesho && !form.meesho.startsWith('http')) e.meesho = 'Enter a valid URL';
     if (form.amazon && !form.amazon.startsWith('http')) e.amazon = 'Enter a valid URL';
+      console.log('Form values:', form);
+  console.log('Errors:', e);
     setErrors(e); return Object.keys(e).length === 0;
   };
 
@@ -413,9 +415,21 @@ function ProductsManager() {
   const formRef = useRef();
 
   const showSuccess = msg => { setSuccessMsg(msg); setTimeout(() => setSuccessMsg(''), 3000); };
-  const handleAdd = form => { addProduct(form); setShowForm(false); showSuccess('✓ Product added!'); };
-  const handleUpdate = form => { updateProduct(editingProduct.id, form); setEditingProduct(null); showSuccess('✓ Product updated!'); };
-  const handleDelete = id => { deleteProduct(id); setDeleteConfirm(null); showSuccess('Product deleted.'); };
+  const handleAdd = async form => { try { await addProduct(form); setShowForm(false); showSuccess('✓ Product added!'); } catch (e) { alert('Failed to add product: ' + e.message); } };
+  const handleUpdate = async form => { try { await updateProduct(editingProduct.id, form); setEditingProduct(null); showSuccess('✓ Product updated!'); } catch (e) { alert('Failed to update product: ' + e.message); } };
+  const handleDelete = async id => {
+    console.log('Deleting product with id:', id);
+    try {
+      await deleteProduct(id);
+      console.log('Delete successful');
+      setDeleteConfirm(null);
+      showSuccess('Product deleted.');
+    } catch (e) {
+      console.error('Delete failed:', e);
+      setDeleteConfirm(null);
+      alert('Failed to delete: ' + e.message);
+    }
+  };
 
   return (
     <div>

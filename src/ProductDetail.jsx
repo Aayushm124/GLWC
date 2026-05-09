@@ -115,7 +115,10 @@ function RelatedCarousel({ products, currentId, category }) {
                 <div style={{ width: '100%', aspectRatio: '1/1' }}><img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} /></div>
                 <div style={{ padding: '0.6rem 0.7rem' }}>
                   <div style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: '0.8rem', marginBottom: 4 }}>{p.name}</div>
-                  <div style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: '0.95rem', color: '#1A1A1A' }}>₹{p.price}</div>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 5 }}>
+                    <span style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: '0.95rem', color: '#1A1A1A' }}>₹{p.price}</span>
+                    {p.old && <span style={{ fontSize: '0.72rem', color: 'var(--muted)', textDecoration: 'line-through' }}>₹{p.old}</span>}
+                  </div>
                 </div>
               </div>
             );

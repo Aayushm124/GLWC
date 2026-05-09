@@ -89,7 +89,7 @@ export default function ContactPage() {
                 </div>
                 <div style={{ minWidth: 0 }}>
                   <div style={{ fontSize: '0.65rem', letterSpacing: '0.15em', color: 'var(--muted)', textTransform: 'uppercase', fontWeight: 600, marginBottom: 4 }}>Email Us</div>
-                  <div style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text)', wordBreak: 'break-all' }}>guptalasercuttingworks@gmail.com</div>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text)' }}>guptalasercuttingworks@gmail.com</div>
                   <div style={{ fontSize: '0.72rem', color: 'var(--muted)', marginTop: 2 }}>We reply within 24 hours</div>
                 </div>
               </div>
@@ -161,7 +161,7 @@ export default function ContactPage() {
 
                 <div style={{ marginBottom: '1rem' }}>
                   <label style={{ fontSize: '0.7rem', letterSpacing: '0.1em', color: 'var(--muted)', textTransform: 'uppercase', fontWeight: 600, display: 'block', marginBottom: 6 }}>Your Name *</label>
-                  <input style={INPUT} placeholder="e.g. Rahul Sharma" value={form.name}
+                  <input style={INPUT} value={form.name}
                     onChange={e => set('name', e.target.value)}
                     onFocus={e => e.target.style.borderColor = 'rgba(184,134,11,0.5)'}
                     onBlur={e => e.target.style.borderColor = 'rgba(180,150,80,0.2)'} />
@@ -169,7 +169,7 @@ export default function ContactPage() {
 
                 <div style={{ marginBottom: '1rem' }}>
                   <label style={{ fontSize: '0.7rem', letterSpacing: '0.1em', color: 'var(--muted)', textTransform: 'uppercase', fontWeight: 600, display: 'block', marginBottom: 6 }}>Your Email *</label>
-                  <input style={INPUT} type="email" placeholder="e.g. rahul@email.com" value={form.email}
+                  <input style={INPUT} type="email" value={form.email}
                     onChange={e => set('email', e.target.value)}
                     onFocus={e => e.target.style.borderColor = 'rgba(184,134,11,0.5)'}
                     onBlur={e => e.target.style.borderColor = 'rgba(180,150,80,0.2)'} />
@@ -177,7 +177,7 @@ export default function ContactPage() {
 
                 <div style={{ marginBottom: '1rem' }}>
                   <label style={{ fontSize: '0.7rem', letterSpacing: '0.1em', color: 'var(--muted)', textTransform: 'uppercase', fontWeight: 600, display: 'block', marginBottom: 6 }}>Subject</label>
-                  <input style={INPUT} placeholder="e.g. Custom Order Enquiry" value={form.subject}
+                  <input style={INPUT} value={form.subject}
                     onChange={e => set('subject', e.target.value)}
                     onFocus={e => e.target.style.borderColor = 'rgba(184,134,11,0.5)'}
                     onBlur={e => e.target.style.borderColor = 'rgba(180,150,80,0.2)'} />
@@ -185,7 +185,7 @@ export default function ContactPage() {
 
                 <div style={{ marginBottom: '1.5rem' }}>
                   <label style={{ fontSize: '0.7rem', letterSpacing: '0.1em', color: 'var(--muted)', textTransform: 'uppercase', fontWeight: 600, display: 'block', marginBottom: 6 }}>Message *</label>
-                  <textarea style={{ ...INPUT, height: 120, resize: 'vertical' }} placeholder="Tell us about your enquiry or custom order requirements..."
+                  <textarea style={{ ...INPUT, height: 120, resize: 'vertical' }}
                     value={form.message}
                     onChange={e => set('message', e.target.value)}
                     onFocus={e => e.target.style.borderColor = 'rgba(184,134,11,0.5)'}

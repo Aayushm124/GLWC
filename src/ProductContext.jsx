@@ -8,8 +8,8 @@ import { db } from './firebase';
 const ProductContext = createContext();
 
 // ─── SECURITY CONFIG ─────────────────────────────────────────
-const ADMIN_SECRET_PATH = '/yash-admin';
-const ADMIN_PASSWORD    = 'yash123';
+const ADMIN_SECRET_PATH = process.env.REACT_APP_ADMIN_PATH;
+const ADMIN_PASSWORD = process.env.REACT_APP_ADMIN_PASSWORD;
 const MAX_ATTEMPTS      = 5;
 const LOCKOUT_MINUTES   = 15;
 // ─────────────────────────────────────────────────────────────
@@ -24,11 +24,16 @@ export function ProductProvider({ children }) {
 
   // ── Listen to Firestore products in real time ──
   useEffect(() => {
-    const unsub = onSnapshot(collection(db, 'products'), snapshot => {
-      const data = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-      setProducts(data);
-      setLoading(false);
-    });
+   const unsub = onSnapshot(
+  collection(db, 'products'),
+  { includeMetadataChanges: false },
+  snapshot => {
+    if (snapshot.metadata.fromCache) return;
+    const data = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+    setProducts(data);
+    setLoading(false);
+  }
+);
     return () => unsub();
   }, []);
 
@@ -41,16 +46,23 @@ export function ProductProvider({ children }) {
   }, []);
 
   // ── Products CRUD ──
-  const addProduct = async (product) => {
-    await addDoc(collection(db, 'products'), {
-      ...product,
+const addProduct = async (product) => {
+  const { id, ...productWithoutId } = product;
+  try {
+    const docRef = await addDoc(collection(db, 'products'), {
+      ...productWithoutId,
       price: Number(product.price),
       old: Number(product.old),
       badges: product.badges || [],
       colors: product.colors || ['#daa532'],
       createdAt: Date.now(),
     });
-  };
+    console.log('Product added with ID:', docRef.id);
+  } catch (err) {
+    console.error('Error adding product:', err);
+    alert('Failed to add product: ' + err.message);
+  }
+};
 
   const updateProduct = async (id, updated) => {
     await updateDoc(doc(db, 'products', id), {
@@ -62,6 +74,9 @@ export function ProductProvider({ children }) {
 
   const deleteProduct = async (id) => {
     await deleteDoc(doc(db, 'products', id));
+    const check = await getDoc(doc(db, 'products', id));
+    console.log('Still exists on server after delete:', check.exists());
+    setProducts(prev => prev.filter(p => p.id !== id));
   };
 
   // ── Carousel CRUD ──

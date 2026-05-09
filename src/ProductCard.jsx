@@ -12,6 +12,7 @@ export default function ProductCard({ product, index, isMobile = false }) {
   const [wished, setWished] = useState(false);
   const [activeImg, setActiveImg] = useState(0);
   const cardRef = useRef();
+  const touchStartX = useRef(null);
 
   const disc = Math.round((1 - product.price / product.old) * 100);
 
@@ -73,6 +74,17 @@ export default function ProductCard({ product, index, isMobile = false }) {
             }
           }}
           onMouseLeave={() => setActiveImg(0)}
+          onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+          onTouchEnd={(e) => {
+            if (touchStartX.current === null) return;
+            const delta = e.changedTouches[0].clientX - touchStartX.current;
+            touchStartX.current = null;
+            if (Math.abs(delta) < 30) return;
+            const images = [product.image, product.image2, product.image3].filter(Boolean);
+            if (images.length <= 1) return;
+            e.stopPropagation();
+            setActiveImg(i => (i + (delta < 0 ? 1 : -1) + images.length) % images.length);
+          }}
         >
           {(() => {
             const images = [product.image, product.image2, product.image3].filter(Boolean);

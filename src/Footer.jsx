@@ -21,7 +21,7 @@ export default function Footer() {
       }}>
         {/* Brand */}
         <div style={{ gridColumn: isMobile ? '1 / -1' : 'auto' }}>
-          <div onClick={() => window.location.href = '/'} style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: isMobile ? '1.3rem' : '1.6rem', color: '#5a3e00', marginBottom: 6, cursor: 'pointer' }}>GLCW</div>
+          <div onClick={() => window.location.href = '/'} style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: isMobile ? '1.3rem' : '1.6rem', color: '#b98a22', marginBottom: 6, cursor: 'pointer' }}>GLCW</div>
           <p style={{ fontSize: '0.78rem', color: 'var(--muted)', lineHeight: 1.7, maxWidth: 220 }}>Gupta Laser Cutting Works</p>
           <div style={{ display: 'flex', gap: 8, marginTop: '0.75rem' }}>
         {[
@@ -71,14 +71,14 @@ export default function Footer() {
           <div style={{ fontSize: '0.6rem', letterSpacing: '0.15em', color: '#7a5200', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.75rem' }}>Contact</div>
           {[
             // { Icon: Icons.Phone, text: '+91 98765 43210', sub: 'Direct contact' },
-            { Icon: Icons.Instagram, text: '@glcw.in', sub: 'Follow our reels' },
+            { Icon: Icons.Instagram, text: '@glcw.in', sub: 'Follow our reels', href: 'https://www.instagram.com/glcw.in' },
             // { Icon: Icons.User, text: 'Seller Profile', sub: 'View catalogue' },
             { Icon: Icons.Mail, text: 'Custom Orders (Coming Soon) ', sub: 'Product options' },
           ].map(c => (
-            <div key={c.text} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', marginBottom: '0.6rem' }}>
+            <div key={c.text} onClick={() => c.href && window.open(c.href, '_blank')} style={{ display: 'flex', gap: 8, alignItems: 'flex-start', marginBottom: '0.6rem', cursor: c.href ? 'pointer' : 'default' }}>
               <c.Icon size={14} color="#7a5200" style={{ marginTop: 2 }} />
               <div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text)', fontWeight: 500 }}>{c.text}</div>
+                <div style={{ fontSize: '0.78rem', color: c.href ? 'var(--gold)' : 'var(--text)', fontWeight: 500 }}>{c.text}</div>
                 <div style={{ fontSize: '0.65rem', color: 'var(--muted)' }}>{c.sub}</div>
               </div>
             </div>

@@ -94,9 +94,9 @@ export default function Header() {
             alignItems: 'center', justifyContent: 'center', gap: 5,
             padding: '8px', transition: 'all 0.3s ease',
           }}>
-            <span style={{ display: 'block', width: 18, height: 2, background: '#8B6000', borderRadius: 2, transition: 'all 0.3s ease', transform: menuOpen ? 'rotate(45deg) translate(0px, 7px)' : 'none' }} />
+            <span style={{ display: 'block', width: 18, height: 2, background: '#8B6000', borderRadius: 2, transition: 'all 0.3s ease', transform: menuOpen ? 'translateY(7px) rotate(45deg)' : 'none' }} />
             <span style={{ display: 'block', width: 18, height: 2, background: '#8B6000', borderRadius: 2, transition: 'all 0.3s ease', opacity: menuOpen ? 0 : 1 }} />
-            <span style={{ display: 'block', width: 18, height: 2, background: '#8B6000', borderRadius: 2, transition: 'all 0.3s ease', transform: menuOpen ? 'rotate(-45deg) translate(0px, -7px)' : 'none' }} />
+            <span style={{ display: 'block', width: 18, height: 2, background: '#8B6000', borderRadius: 2, transition: 'all 0.3s ease', transform: menuOpen ? 'translateY(-7px) rotate(-45deg)' : 'none' }} />
           </button>
         </div>
       </header>

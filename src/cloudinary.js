@@ -1,5 +1,5 @@
-const CLOUD_NAME = 'dpigac2ld';
-const UPLOAD_PRESET = 'glcw_uploads';
+const CLOUD_NAME = process.env.REACT_APP_CLOUD_NAME;
+const UPLOAD_PRESET = process.env.REACT_APP_UPLOAD_PRESET;
 
 export async function uploadToCloudinary(file) {
   const formData = new FormData();

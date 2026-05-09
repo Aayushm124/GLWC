@@ -28,14 +28,13 @@ function CarouselCard({ item, isMobile,products }) {
   else if (item.amazon) window.open(item.amazon, '_blank');
 }}
       style={{
-        width: cardWidth, flexShrink: 0, borderRadius: isMobile ? 12 : 16, overflow: 'hidden',
-        cursor: 'pointer',
-         background: 'linear-gradient(160deg, #ffffff, #faf7f2)',
-border: `1px solid ${hovered ? 'rgba(184,134,11,0.4)' : 'rgba(180,150,80,0.15)'}`,
-        overflow: 'hidden', position: 'relative',
+        width: cardWidth, flexShrink: 0, borderRadius: isMobile ? 12 : 16,
+        overflow: 'hidden', position: 'relative', cursor: 'pointer', userSelect: 'none',
+        background: 'linear-gradient(160deg, #ffffff, #faf7f2)',
+        border: `1px solid ${hovered ? 'rgba(184,134,11,0.4)' : 'rgba(180,150,80,0.15)'}`,
         transform: `translateY(${hovered ? -8 : 0}px) scale(${hovered ? 1.03 : 1})`,
-boxShadow: hovered ? '0 20px 40px rgba(180,150,80,0.2)' : '0 4px 16px rgba(180,150,80,0.1)',        transition: 'all 0.35s cubic-bezier(0.23,1,0.32,1)',
-        cursor: 'pointer', userSelect: 'none',
+        boxShadow: hovered ? '0 20px 40px rgba(180,150,80,0.2)' : '0 4px 16px rgba(180,150,80,0.1)',
+        transition: 'all 0.35s cubic-bezier(0.23,1,0.32,1)',
       }}
     >
       <div style={{
@@ -63,37 +62,44 @@ border: `1px solid ${hovered ? 'rgba(184,134,11,0.4)' : 'rgba(180,150,80,0.15)'}
           {item.name}
         </div>
         <div style={{
-          fontFamily: 'Inter', fontWeight: 700,
-          fontSize: isMobile ? '0.85rem' : '1rem',
-          color: '#1A1A1A', marginBottom: isMobile ? 6 : 9,
+          display: 'flex', alignItems: 'baseline', gap: 5,
+          marginBottom: isMobile ? 6 : 9,
         }}>
-          ₹{item.price}
+          <span style={{
+            fontFamily: 'Inter', fontWeight: 700,
+            fontSize: isMobile ? '0.85rem' : '1rem',
+            color: '#1A1A1A',
+          }}>₹{item.price}</span>
+          {item.old && (
+            <span style={{
+              fontSize: isMobile ? '0.62rem' : '0.72rem',
+              color: 'var(--muted)', textDecoration: 'line-through',
+            }}>₹{item.old}</span>
+          )}
         </div>
         <div style={{ display: 'flex', gap: isMobile ? 4 : 5 }}>
           {item.meesho && (
-            <a href={item.meesho} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
+            <button onClick={e => { e.stopPropagation(); e.preventDefault(); window.open(item.meesho, '_blank', 'noopener,noreferrer'); }}
               style={{
                 flex: 1, padding: isMobile ? '3px 0' : '5px 0',
-                borderRadius: 8, textAlign: 'center',
+                borderRadius: 8, textAlign: 'center', border: 'none', cursor: 'pointer',
                 background: 'linear-gradient(135deg, #f43397, #c0126f)',
-                color: '#fff', fontSize: isMobile ? '0.58rem' : '0.65rem',
-                fontWeight: 700, textDecoration: 'none',
+                color: '#fff', fontSize: isMobile ? '0.58rem' : '0.65rem', fontWeight: 700,
               }}>
               Normal
-            </a>
+            </button>
           )}
           {item.amazon && (
-            <a href={item.amazon} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}
+            <button onClick={e => { e.stopPropagation(); e.preventDefault(); window.open(item.amazon, '_blank', 'noopener,noreferrer'); }}
               style={{
                 flex: 1, padding: isMobile ? '3px 0' : '5px 0',
-                borderRadius: 8, textAlign: 'center',
+                borderRadius: 8, textAlign: 'center', border: 'none', cursor: 'pointer',
                 background: 'linear-gradient(135deg, rgb(72, 255, 0), rgb(45, 224, 0))',
-                color: '#000', fontSize: isMobile ? '0.58rem' : '0.65rem',
-                fontWeight: 700, textDecoration: 'none',
+                color: '#000', fontSize: isMobile ? '0.58rem' : '0.65rem', fontWeight: 700,
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 3,
               }}>
               <Icons.Bolt size={isMobile ? 8 : 11} color="#000" /> Express
-            </a>
+            </button>
           )}
         </div>
       </div>
@@ -101,20 +107,15 @@ border: `1px solid ${hovered ? 'rgba(184,134,11,0.4)' : 'rgba(180,150,80,0.15)'}
   );
 }
 
-const TABS = [
-  { key: 'new', label: 'New Arrivals' },
-];
-
 export default function CarouselSection() {
-  const { carousel,products } = useProducts();
+  const { products } = useProducts();
   const isMobile = useIsMobile();
-  const [activeTab, setActiveTab] = useState('new');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(true);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStartX, setDragStartX] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+  const isPausedRef = useRef(false);
   const trackRef = useRef();
   const autoRef = useRef();
 
@@ -122,7 +123,7 @@ export default function CarouselSection() {
   const cardGap = isMobile ? CARD_GAP_MOBILE : CARD_GAP;
   const cardStep = cardWidth + cardGap;
 
-  const items = carousel[activeTab] || [];
+  const items = products;
   const looped = [...items, ...items, ...items];
   const START = items.length;
 
@@ -135,23 +136,23 @@ export default function CarouselSection() {
     if (!isTransitioning) { const t = setTimeout(() => setIsTransitioning(true), 20); return () => clearTimeout(t); }
   }, [isTransitioning]);
 
-  useEffect(() => { setIsTransitioning(false); setCurrentIndex(START); setDragOffset(0); }, [activeTab, START]);
+  useEffect(() => { setIsTransitioning(false); setCurrentIndex(START); setDragOffset(0); }, [START]);
 
   const startAuto = useCallback(() => {
     clearInterval(autoRef.current);
     autoRef.current = setInterval(() => {
-      if (!isPaused) { setIsTransitioning(true); setCurrentIndex(i => i + 1); }
+      if (!isPausedRef.current) { setIsTransitioning(true); setCurrentIndex(i => i + 1); }
     }, AUTO_INTERVAL);
-  }, [isPaused]);
+  }, []);
 
-  useEffect(() => { startAuto(); return () => clearInterval(autoRef.current); }, [startAuto, activeTab]);
+  useEffect(() => { startAuto(); return () => clearInterval(autoRef.current); }, [startAuto]);
 
   const goTo = (dir) => { setIsTransitioning(true); setCurrentIndex(i => i + dir); startAuto(); };
-  const onDragStart = (clientX) => { setIsDragging(true); setDragStartX(clientX); setDragOffset(0); setIsPaused(true); };
+  const onDragStart = (clientX) => { setIsDragging(true); setDragStartX(clientX); setDragOffset(0); isPausedRef.current = true; };
   const onDragMove = (clientX) => { if (!isDragging) return; setDragOffset(clientX - dragStartX); };
   const onDragEnd = () => {
     if (!isDragging) return;
-    setIsDragging(false); setIsPaused(false);
+    setIsDragging(false); isPausedRef.current = false;
     if (dragOffset < -50) goTo(1); else if (dragOffset > 50) goTo(-1);
     setDragOffset(0);
   };
@@ -166,8 +167,8 @@ export default function CarouselSection() {
   return (
     <section
       style={{ padding: isMobile ? '0.75rem 0 2.5rem' : '1rem 0 4rem', position: 'relative', zIndex: 1 }}
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      onMouseEnter={() => { isPausedRef.current = true; }}
+      onMouseLeave={() => { isPausedRef.current = false; }}
     >
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem', padding }}>
@@ -179,29 +180,9 @@ export default function CarouselSection() {
         <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, rgba(218,165,50,0.25), transparent)' }} />
       </div>
 
-      {/* Controls */}
-      <div style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        marginBottom: '1rem', padding, flexWrap: 'wrap', gap: '0.5rem',
-      }}>
-        {/* Tabs — hidden while only one tab exists */}
-        <div style={{ display: TABS.length > 1 ? 'flex' : 'none', gap: '0.35rem', overflowX: isMobile ? 'auto' : 'visible', scrollbarWidth: 'none' }}>
-          {TABS.map(t => (
-            <button key={t.key} onClick={() => setActiveTab(t.key)} style={{
-              padding: isMobile ? '0.25rem 0.6rem' : '0.35rem 1rem',
-              borderRadius: 8, cursor: 'pointer', transition: 'all 0.2s',
-              border: `1px solid ${activeTab === t.key ? 'rgba(218,165,50,0.45)' : 'rgba(255,255,255,0.07)'}`,
-              background: activeTab === t.key ? 'rgba(218,165,50,0.1)' : 'transparent',
-              color: activeTab === t.key ? 'var(--gold)' : 'var(--muted)',
-              fontSize: isMobile ? '0.68rem' : '0.76rem',
-              fontWeight: activeTab === t.key ? 600 : 400,
-              whiteSpace: 'nowrap', flexShrink: 0,
-            }}>{t.label}</button>
-          ))}
-        </div>
-
-        {/* Arrows — hidden on mobile */}
-        {!isMobile && (
+      {/* Controls — arrows only, no tabs */}
+      {!isMobile && (
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem', padding }}>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
             {[{ dir: -1, label: '←' }, { dir: 1, label: '→' }].map(({ dir, label }) => (
               <button key={label} onClick={() => goTo(dir)} style={{
@@ -214,8 +195,8 @@ export default function CarouselSection() {
               >{label}</button>
             ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Track */}
       <div style={{ position: 'relative', overflow: 'hidden', paddingTop: '10px' }}>
@@ -238,7 +219,7 @@ export default function CarouselSection() {
             willChange: 'transform',
           }}>
             {looped.map((item, i) => (
-<CarouselCard key={`${activeTab}-${i}`} item={item} isMobile={isMobile} products={products} />            ))}
+<CarouselCard key={i} item={item} isMobile={isMobile} products={products} />            ))}
           </div>
         </div>
       </div>
