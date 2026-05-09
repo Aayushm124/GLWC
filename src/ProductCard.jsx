@@ -24,7 +24,7 @@ export default function ProductCard({ product, index, isMobile = false }) {
           observer.disconnect();
         }
       },
-      { threshold: 0.08, rootMargin: '0px 0px -8% 0px' }
+      { threshold: 0.05 }
     );
     if (cardRef.current) observer.observe(cardRef.current);
     return () => observer.disconnect();

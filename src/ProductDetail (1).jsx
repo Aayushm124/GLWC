@@ -18,14 +18,6 @@ const injectStyles = () => {
       -webkit-mask-image: -webkit-radial-gradient(white, black);
       isolation: isolate;
     }
-    @media (max-width: 768px) {
-      .pd-desc { order: 2; }
-      .pd-trust { order: 3; }
-    }
-    @media (min-width: 769px) {
-      .pd-desc { order: 3; }
-      .pd-trust { order: 2; }
-    }
     .shimmer-btn::after {
       content: "";
       position: absolute;
@@ -155,11 +147,12 @@ export default function ProductDetail() {
 
   const buyButtonStyle = (type) => ({
     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-    padding: '1rem 1.5rem', borderRadius: 12, textDecoration: 'none', fontSize: '1rem', fontWeight: 700,
-    transition: 'all 0.2s ease',
-    background: type === 'amazon' ? '#5cf000' : '#e8197d',
-    color: type === 'amazon' ? '#111' : '#fff',
-    border: 'none', cursor: 'pointer', width: '100%', boxShadow: 'none'
+    padding: '1.1rem', borderRadius: 16, textDecoration: 'none', fontSize: '1.05rem', fontWeight: 700,
+    transition: 'all 0.3s ease',
+    background: type === 'amazon' ? 'linear-gradient(135deg, rgb(72, 255, 0), rgb(45, 224, 0))' : 'linear-gradient(135deg, #f43397, #c0126f)',
+    color: type === 'amazon' ? '#000' : '#fff',
+    boxShadow: type === 'amazon' ? '0 4px 15px rgba(72, 255, 0, 0.3)' : '0 4px 15px rgba(244, 51, 151, 0.3)',
+    border: 'none', cursor: 'pointer'
   });
 
   return (
@@ -198,7 +191,7 @@ export default function ProductDetail() {
         </div>
 
         {/* RIGHT — Info */}
-        <div style={{ zIndex: 1, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ zIndex: 1 }}>
           {/* Category */}
           <div style={{ fontSize: '0.65rem', color: 'var(--gold)', textTransform: 'uppercase', fontWeight: 600, marginBottom: '0.2rem' }}>{product.cat}</div>
 
@@ -225,9 +218,9 @@ export default function ProductDetail() {
             )}
             {disc > 0 && <span style={{ padding: '4px 12px', borderRadius: 999, background: '#c52222', color: '#fff', fontSize: '0.8rem', fontWeight: 700 }}>{disc}% OFF</span>}
           </div>
-          
+
           {/* Buy buttons */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginTop: '0.75rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1rem' }}>
             {product.meesho && (
               <button onClick={e => { e.stopPropagation(); e.preventDefault(); window.open(product.meesho, '_blank', 'noopener,noreferrer'); }} className="shimmer-btn" style={buyButtonStyle('meesho')}>
                 <Icons.ShoppingBag size={20} /> Buy Normal
@@ -241,7 +234,7 @@ export default function ProductDetail() {
           </div>
 
           {/* Trust badges */}
-          <div className="pd-trust" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px', padding: '0.85rem 0', borderTop: '1px solid rgba(180,150,80,0.1)', borderBottom: '1px solid rgba(180,150,80,0.1)', marginTop: '0.75rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px', padding: '0.85rem 0', borderTop: '1px solid rgba(180,150,80,0.1)', borderBottom: '1px solid rgba(180,150,80,0.1)', marginBottom: '0.75rem' }}>
             {[{ Icon: Icons.Package, text: '10 Day Replacement' }, { Icon: Icons.Truck, text: 'Free Delivery' }, { Icon: Icons.Shield, text: 'Warranty Policy' }, { Icon: Icons.Lock, text: 'Secure Transaction' }].map((item, i) => (
               <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: '4px' }}>
                 <item.Icon size={18} color="var(--gold)" />
@@ -252,9 +245,9 @@ export default function ProductDetail() {
 
           {/* Description */}
           {product.desc && (
-            <div className="pd-desc" onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 12px 28px rgba(180,150,80,0.2)'; e.currentTarget.style.borderColor = 'rgba(184,134,11,0.35)'; }}
+            <div onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 12px 28px rgba(180,150,80,0.2)'; e.currentTarget.style.borderColor = 'rgba(184,134,11,0.35)'; }}
               onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(180,150,80,0.08)'; e.currentTarget.style.borderColor = 'rgba(184,134,11,0.15)'; }}
-              style={{ padding: '0.75rem 1rem', borderRadius: 12, background: '#fff', fontSize: '0.82rem', color: 'var(--muted)', lineHeight: 1.8, boxShadow: '0 4px 12px rgba(180,150,80,0.08)', border: '1px solid rgba(184,134,11,0.15)', transition: 'all 0.3s ease', cursor: 'default', marginTop: '0.75rem' }}>
+              style={{ padding: '0.75rem 1rem', borderRadius: 12, background: '#fff', fontSize: '0.82rem', color: 'var(--muted)', lineHeight: 1.8, boxShadow: '0 4px 12px rgba(180,150,80,0.08)', border: '1px solid rgba(184,134,11,0.15)', transition: 'all 0.3s ease', cursor: 'default' }}>
               {product.desc}
             </div>
           )}
