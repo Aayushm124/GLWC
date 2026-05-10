@@ -507,7 +507,7 @@ export default function AdminPanel() {
           {[
             { label: 'Total Products', value: products.length, IconComp: Icons.Package },
             { label: 'Carousel Items', value: totalCarousel, IconComp: Icons.Carousel },
-            { label: 'Mouse Pads', value: products.filter(p => p.cat === 'mouse').length, IconComp: Icons.Mouse },
+            { label: 'Mouse Pads', value: products.filter(p => p.cat === 'mousepads').length, IconComp: Icons.Mouse },
             { label: 'LED Products', value: products.filter(p => p.cat === 'led').length, IconComp: Icons.Bulb },
             { label: 'Home Decor', value: products.filter(p => p.cat === 'home').length, IconComp: Icons.Home },
           ].map(s => (
