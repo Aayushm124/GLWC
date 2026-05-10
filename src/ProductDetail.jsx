@@ -140,14 +140,6 @@ export default function ProductDetail() {
   const product = products.find(p => p.id === productId);
   useEffect(() => { window.scrollTo(0, 0); setActiveImg(0); }, [productId]);
 
-  useEffect(() => {
-    if (product) {
-      document.title = `${product.name} | GLCW`;
-      const desc = document.querySelector('meta[name="description"]');
-      if (desc) desc.setAttribute('content', product.desc || product.name);
-    }
-  }, [product]);
-
   const handleMouseMove = (e) => {
     if (!imgRef.current || window.innerWidth <= 768) return;
     const rect = imgRef.current.getBoundingClientRect();

@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /yash-admin
-
-Sitemap: https://glcw-theta.vercel.app/sitemap.xml
