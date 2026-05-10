@@ -7,7 +7,7 @@ const MESSAGES = [
   ' Home Decor collection now live',
   ' LED Products at unbeatable prices',
   ' Custom orders available — Contact us',
-    ' ✅Trusted by 23000+ customers across India',
+  ' ✅Trusted by 23000+ customers across India',
 
   ' Free Delivery on orders above ₹499',
   ' Express Delivery Available',
