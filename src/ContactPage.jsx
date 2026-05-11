@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Icons } from './Icons';
 import useIsMobile from './useIsMobile';
+import SEO from './SEO';
 
 export default function ContactPage() {
   const isMobile = useIsMobile(640);
@@ -31,6 +32,10 @@ export default function ContactPage() {
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
+      <SEO
+        title="Contact Us"
+        description="Get in touch with Gupta Laser Cutting Works. Send us an enquiry about products, orders, or custom laser-cutting requests."
+      />
 
       {/* Top bar */}
       <div style={{

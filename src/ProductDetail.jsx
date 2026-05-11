@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useProducts } from './ProductContext';
 import { Icons } from './Icons';
+import SEO from './SEO';
 
 const injectStyles = () => {
   if (document.getElementById('shimmer-styles')) return;
@@ -153,6 +154,27 @@ export default function ProductDetail() {
   const images = [product.image, product.image2, product.image3].filter(Boolean);
   const disc = product.old ? Math.round((1 - product.price / product.old) * 100) : 0;
 
+  const productStructuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    image: images,
+    description: product.desc || product.name,
+    brand: { '@type': 'Brand', name: 'Gupta Laser Cutting Works' },
+    aggregateRating: product.reviews > 0 ? {
+      '@type': 'AggregateRating',
+      ratingValue: product.rating || '4.5',
+      reviewCount: product.reviews,
+    } : undefined,
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'INR',
+      price: product.price,
+      availability: 'https://schema.org/InStock',
+      seller: { '@type': 'Organization', name: 'Gupta Laser Cutting Works' },
+    },
+  };
+
   const buyButtonStyle = (type) => ({
     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
     padding: '1rem 1.5rem', borderRadius: 12, textDecoration: 'none', fontSize: '1rem', fontWeight: 700,
@@ -164,6 +186,13 @@ export default function ProductDetail() {
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
+      <SEO
+        title={product.name}
+        description={product.desc || `Buy ${product.name} at the best price. Fast delivery and secure transactions.`}
+        image={product.image}
+        type="product"
+        structuredData={productStructuredData}
+      />
       {/* Top bar */}
       <div style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(245,240,232,0.95)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(180,150,80,0.15)', padding: '0.75rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <button onClick={() => window.history.back()} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'transparent', border: 'none', cursor: 'pointer', color: 'var(--gold)', fontSize: '0.9rem', fontWeight: 600, padding: '4px 0' }}>
@@ -180,7 +209,7 @@ export default function ProductDetail() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {images.map((img, i) => (
               <div key={i} onClick={() => { setActiveImg(i); setZoom({ show: false, x: 0, y: 0 }); }} style={{ width: 60, height: 60, borderRadius: 10, overflow: 'hidden', border: `2px solid ${activeImg === i ? '#b8860b' : 'rgba(180,150,80,0.15)'}`, cursor: 'pointer' }}>
-                <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                <img src={img} alt={`${product.name} view ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
               </div>
             ))}
           </div>
