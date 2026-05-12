@@ -92,31 +92,32 @@ function RelatedCarousel({ products, currentId, category }) {
         <h2 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: '1.1rem', color: 'rgba(184,134,11,0.8)' }}>Related Products</h2>
         <div style={{ width: 120, height: 1, background: 'linear-gradient(90deg, rgba(184,134,11,0.3), transparent)' }} />
       </div>
-      <div style={{ position: 'relative', overflow: 'hidden', cursor: isDragging ? 'grabbing' : 'grab' }}
-           onMouseDown={e => onDragStart(e.clientX)}
-           onMouseMove={e => onDragMove(e.clientX)}
-           onMouseUp={onDragEnd} onMouseLeave={onDragEnd}
-           onTouchStart={e => onDragStart(e.touches[0].clientX)}
-           onTouchMove={e => { e.preventDefault(); onDragMove(e.touches[0].clientX); }}
-           onTouchEnd={onDragEnd}>
+      <div style={{ position: 'relative' }}>
         <button onClick={goLeft} style={{
           position: 'absolute', left: 6, top: '50%', transform: 'translateY(-50%)', zIndex: 20,
-          width: 32, height: 32, borderRadius: '50%', background: 'rgba(184,134,11,0.25)',
-          border: '1px solid rgba(184,134,11,0.55)', color: 'var(--gold)', cursor: 'pointer',
+          width: 44, height: 44, borderRadius: '50%', background: 'rgba(184,134,11,1)',
+          border: '1px solid rgba(184,134,11,1)', color: '#fff', cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s',
         }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(184,134,11,0.45)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'; }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(184,134,11,0.25)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(140,100,5,1)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(184,134,11,1)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
         ><Icons.ChevronLeft size={16} /></button>
         <button onClick={goRight} style={{
           position: 'absolute', right: 6, top: '50%', transform: 'translateY(-50%)', zIndex: 20,
-          width: 32, height: 32, borderRadius: '50%', background: 'rgba(184,134,11,0.25)',
-          border: '1px solid rgba(184,134,11,0.55)', color: 'var(--gold)', cursor: 'pointer',
+          width: 44, height: 44, borderRadius: '50%', background: 'rgba(184,134,11,1)',
+          border: '1px solid rgba(184,134,11,1)', color: '#fff', cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s',
         }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(184,134,11,0.45)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'; }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(184,134,11,0.25)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(140,100,5,1)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(184,134,11,1)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
         ><Icons.ChevronRight size={16} /></button>
+        <div style={{ overflow: 'hidden', cursor: isDragging ? 'grabbing' : 'grab' }}
+             onMouseDown={e => onDragStart(e.clientX)}
+             onMouseMove={e => onDragMove(e.clientX)}
+             onMouseUp={onDragEnd} onMouseLeave={onDragEnd}
+             onTouchStart={e => onDragStart(e.touches[0].clientX)}
+             onTouchMove={e => { e.preventDefault(); onDragMove(e.touches[0].clientX); }}
+             onTouchEnd={onDragEnd}>
         <div onTransitionEnd={handleTransitionEnd} style={{ display: 'flex', gap: cardGap, transform: `translateX(${-(offset) + dragOffset}px)`, transition: (isDragging || !transitionEnabled) ? 'none' : 'transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94)' }}>
           {related.map((p, index) => (
             <div key={`${p.id}-${index}`} onClick={() => { window.location.href = `/product/${p.id}`; }} style={{ width: cardWidth, flexShrink: 0, borderRadius: 14, overflow: 'hidden', background: '#fff', border: '1px solid rgba(180,150,80,0.15)', cursor: 'pointer' }}>
@@ -131,6 +132,7 @@ function RelatedCarousel({ products, currentId, category }) {
             </div>
           ))}
         </div>
+        </div>
       </div>
     </div>
   );
@@ -141,7 +143,19 @@ export default function ProductDetail() {
   const [activeImg, setActiveImg] = useState(0);
   const [wished, setWished] = useState(false);
   const [zoom, setZoom] = useState({ show: false, x: 0, y: 0 });
+  const [lightbox, setLightbox] = useState(false);
   const imgRef = useRef();
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (!lightbox) return;
+      if (e.key === 'Escape') setLightbox(false);
+      if (e.key === 'ArrowRight') setActiveImg(i => (i + 1) % images.length);
+      if (e.key === 'ArrowLeft') setActiveImg(i => (i - 1 + images.length) % images.length);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [lightbox]);
 
   useEffect(() => { injectStyles(); }, []);
 
@@ -226,7 +240,7 @@ export default function ProductDetail() {
             ))}
           </div>
           <div style={{ flex: 1, position: 'relative' }}>
-            <div ref={imgRef} onMouseMove={handleMouseMove} onMouseLeave={() => setZoom({ show: false, x: 0, y: 0 })} style={{ width: '100%', aspectRatio: '1/1', borderRadius: 20, overflow: 'hidden', background: '#fff', border: '1px solid rgba(180,150,80,0.2)', position: 'relative', cursor: zoom.show && window.innerWidth > 768 ? 'crosshair' : 'default' }}>
+            <div ref={imgRef} onMouseMove={handleMouseMove} onMouseLeave={() => setZoom({ show: false, x: 0, y: 0 })} onClick={() => setLightbox(true)} style={{ width: '100%', aspectRatio: '1/1', borderRadius: 20, overflow: 'hidden', background: '#fff', border: '1px solid rgba(180,150,80,0.2)', position: 'relative', cursor: 'zoom-in' }}>
               <img src={images[activeImg]} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
               {zoom.show && window.innerWidth > 768 && (
                 <div style={{ position: 'absolute', width: 120, height: 120, border: '2px solid rgba(184,134,11,0.6)', transform: 'translate(-50%, -50%)', left: `${zoom.x}%`, top: `${zoom.y}%`, background: 'rgba(184,134,11,0.08)', pointerEvents: 'none' }} />
@@ -305,6 +319,67 @@ export default function ProductDetail() {
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <RelatedCarousel products={products} currentId={productId} category={product.cat} />
       </div>
+
+      {/* Lightbox */}
+      {lightbox && (
+        <div onClick={() => setLightbox(false)} style={{
+          position: 'fixed', inset: 0, zIndex: 1000,
+          background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(8px)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          {/* Close */}
+          <button onClick={() => setLightbox(false)} style={{
+            position: 'absolute', top: 16, right: 16,
+            width: 40, height: 40, borderRadius: '50%',
+            background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
+            color: '#fff', fontSize: '1.2rem', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>×</button>
+
+          {/* Prev */}
+          {images.length > 1 && (
+            <button onClick={e => { e.stopPropagation(); setActiveImg(i => (i - 1 + images.length) % images.length); }} style={{
+              position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)',
+              width: 44, height: 44, borderRadius: '50%',
+              background: 'rgba(184,134,11,1)', border: '1px solid rgba(184,134,11,1)',
+              color: '#fff', fontSize: '1.2rem', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>‹</button>
+          )}
+
+          {/* Image */}
+          <img
+            src={images[activeImg]}
+            alt={product.name}
+            onClick={e => e.stopPropagation()}
+            style={{ maxWidth: '90vw', maxHeight: '90vh', objectFit: 'contain', borderRadius: 12, userSelect: 'none' }}
+          />
+
+          {/* Next */}
+          {images.length > 1 && (
+            <button onClick={e => { e.stopPropagation(); setActiveImg(i => (i + 1) % images.length); }} style={{
+              position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)',
+              width: 44, height: 44, borderRadius: '50%',
+              background: 'rgba(184,134,11,1)', border: '1px solid rgba(184,134,11,1)',
+              color: '#fff', fontSize: '1.2rem', cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>›</button>
+          )}
+
+          {/* Dot indicators */}
+          {images.length > 1 && (
+            <div style={{ position: 'absolute', bottom: 20, display: 'flex', gap: 6 }}>
+              {images.map((_, i) => (
+                <div key={i} onClick={e => { e.stopPropagation(); setActiveImg(i); }} style={{
+                  width: activeImg === i ? 22 : 7, height: 7, borderRadius: 999,
+                  background: activeImg === i ? '#b8860b' : 'rgba(255,255,255,0.3)',
+                  cursor: 'pointer', transition: 'all 0.3s ease',
+                }} />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
