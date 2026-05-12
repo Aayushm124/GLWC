@@ -189,27 +189,27 @@ export default function CarouselSection() {
         <button onClick={() => goTo(-1)} style={{
           position: 'absolute', left: isMobile ? 4 : 10, top: '50%', transform: 'translateY(-50%)',
           zIndex: 20, width: isMobile ? 28 : 36, height: isMobile ? 28 : 36,
-          borderRadius: '50%', background: 'rgba(218,165,50,0.25)',
-          border: '1px solid rgba(218,165,50,0.55)', color: 'var(--gold)',
-          fontSize: '1rem', cursor: 'pointer',
+          borderRadius: '50%', background: '#daa532',
+          border: '1px solid #daa532', color: '#fff',
+          padding: 0, cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s',
         }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(218,165,50,0.45)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'; }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(218,165,50,0.25)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
-        >←</button>
+          onMouseEnter={e => { e.currentTarget.style.background = '#b8860b'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = '#daa532'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
+        ><Icons.ChevronLeft size={isMobile ? 14 : 18} color="#fff" /></button>
 
         {/* Right arrow */}
         <button onClick={() => goTo(1)} style={{
           position: 'absolute', right: isMobile ? 4 : 10, top: '50%', transform: 'translateY(-50%)',
           zIndex: 20, width: isMobile ? 28 : 36, height: isMobile ? 28 : 36,
-          borderRadius: '50%', background: 'rgba(218,165,50,0.25)',
-          border: '1px solid rgba(218,165,50,0.55)', color: 'var(--gold)',
-          fontSize: '1rem', cursor: 'pointer',
+          borderRadius: '50%', background: '#daa532',
+          border: '1px solid #daa532',
+          padding: 0, cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s',
         }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(218,165,50,0.45)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'; }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(218,165,50,0.25)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
-        >→</button>
+          onMouseEnter={e => { e.currentTarget.style.background = '#b8860b'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = '#daa532'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
+        ><Icons.ChevronRight size={isMobile ? 14 : 18} color="#fff" /></button>
 
         <div
           style={{ overflow: 'visible', padding: isMobile ? '0.5rem 1rem 1rem' : '0.5rem 2.5rem 1rem', cursor: isDragging ? 'grabbing' : 'grab' }}

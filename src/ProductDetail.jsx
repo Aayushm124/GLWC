@@ -95,22 +95,22 @@ function RelatedCarousel({ products, currentId, category }) {
       <div style={{ position: 'relative' }}>
         <button onClick={goLeft} style={{
           position: 'absolute', left: 6, top: '50%', transform: 'translateY(-50%)', zIndex: 20,
-          width: 44, height: 44, borderRadius: '50%', background: 'rgba(218,165,50,0.25)',
-          border: '1px solid rgba(218,165,50,0.55)', color: 'var(--gold)', cursor: 'pointer',
+          width: 44, height: 44, borderRadius: '50%', background: '#daa532',
+          border: '1px solid #daa532', padding: 0, cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s',
         }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(218,165,50,0.45)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'; }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(218,165,50,0.25)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
-        ><Icons.ChevronLeft size={16} /></button>
+          onMouseEnter={e => { e.currentTarget.style.background = '#b8860b'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = '#daa532'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
+        ><Icons.ChevronLeft size={18} color="#fff" /></button>
         <button onClick={goRight} style={{
           position: 'absolute', right: 6, top: '50%', transform: 'translateY(-50%)', zIndex: 20,
-          width: 44, height: 44, borderRadius: '50%', background: 'rgba(218,165,50,0.25)',
-          border: '1px solid rgba(218,165,50,0.55)', color: 'var(--gold)', cursor: 'pointer',
+          width: 44, height: 44, borderRadius: '50%', background: '#daa532',
+          border: '1px solid #daa532', padding: 0, cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s',
         }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(218,165,50,0.45)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'; }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(218,165,50,0.25)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
-        ><Icons.ChevronRight size={16} /></button>
+          onMouseEnter={e => { e.currentTarget.style.background = '#b8860b'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = '#daa532'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
+        ><Icons.ChevronRight size={18} color="#fff" /></button>
         <div style={{ overflow: 'hidden', cursor: isDragging ? 'grabbing' : 'grab' }}
              onMouseDown={e => onDragStart(e.clientX)}
              onMouseMove={e => onDragMove(e.clientX)}
