@@ -180,28 +180,36 @@ export default function CarouselSection() {
         <div style={{ flex: 1, height: 1, background: 'linear-gradient(90deg, rgba(218,165,50,0.25), transparent)' }} />
       </div>
 
-      {/* Controls — arrows only, no tabs */}
-      {!isMobile && (
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem', padding }}>
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-            {[{ dir: -1, label: '←' }, { dir: 1, label: '→' }].map(({ dir, label }) => (
-              <button key={label} onClick={() => goTo(dir)} style={{
-                width: 36, height: 36, borderRadius: '50%', background: 'rgba(218,165,50,0.08)',
-                border: '1px solid rgba(218,165,50,0.22)', color: 'var(--gold)', fontSize: '1rem',
-                cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s',
-              }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(218,165,50,0.2)'; e.currentTarget.style.transform = 'scale(1.1)'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(218,165,50,0.08)'; e.currentTarget.style.transform = 'scale(1)'; }}
-              >{label}</button>
-            ))}
-          </div>
-        </div>
-      )}
-
       {/* Track */}
       <div style={{ position: 'relative', overflow: 'hidden', paddingTop: '10px' }}>
         <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: isMobile ? 30 : 60, zIndex: 10, background: 'linear-gradient(90deg, var(--bg), transparent)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: isMobile ? 30 : 60, zIndex: 10, background: 'linear-gradient(270deg, var(--bg), transparent)', pointerEvents: 'none' }} />
+
+        {/* Left arrow */}
+        <button onClick={() => goTo(-1)} style={{
+          position: 'absolute', left: isMobile ? 4 : 10, top: '50%', transform: 'translateY(-50%)',
+          zIndex: 20, width: isMobile ? 28 : 36, height: isMobile ? 28 : 36,
+          borderRadius: '50%', background: '#daa532',
+          border: '1px solid #daa532', color: '#fff',
+          padding: 0, cursor: 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s',
+        }}
+          onMouseEnter={e => { e.currentTarget.style.background = '#b8860b'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = '#daa532'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
+        ><Icons.ChevronLeft size={isMobile ? 14 : 18} color="#fff" /></button>
+
+        {/* Right arrow */}
+        <button onClick={() => goTo(1)} style={{
+          position: 'absolute', right: isMobile ? 4 : 10, top: '50%', transform: 'translateY(-50%)',
+          zIndex: 20, width: isMobile ? 28 : 36, height: isMobile ? 28 : 36,
+          borderRadius: '50%', background: '#daa532',
+          border: '1px solid #daa532',
+          padding: 0, cursor: 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s',
+        }}
+          onMouseEnter={e => { e.currentTarget.style.background = '#b8860b'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = '#daa532'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
+        ><Icons.ChevronRight size={isMobile ? 14 : 18} color="#fff" /></button>
 
         <div
           style={{ overflow: 'visible', padding: isMobile ? '0.5rem 1rem 1rem' : '0.5rem 2.5rem 1rem', cursor: isDragging ? 'grabbing' : 'grab' }}

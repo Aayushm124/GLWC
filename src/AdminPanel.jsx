@@ -91,8 +91,6 @@ function ProductForm({ initial, onSave, onCancel }) {
     if (!form.image) e.image = 'Upload a product image';
     if (form.meesho && !form.meesho.startsWith('http')) e.meesho = 'Enter a valid URL';
     if (form.amazon && !form.amazon.startsWith('http')) e.amazon = 'Enter a valid URL';
-      console.log('Form values:', form);
-  console.log('Errors:', e);
     setErrors(e); return Object.keys(e).length === 0;
   };
 
@@ -302,9 +300,9 @@ function AdminLogin({ onLogin }) {
     return `${m}:${s.toString().padStart(2, '0')}`;
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (locked) return;
-    const result = login(pw);
+    const result = await login(pw);
     if (result.success) { onLogin(); }
     else if (result.locked) { setLocked(true); setLockRemaining(result.remainingMs); setError(''); }
     else { setAttemptsLeft(result.remaining); setError(`Wrong password — ${result.remaining} attempt${result.remaining === 1 ? '' : 's'} left`); setPw(''); setTimeout(() => setError(''), 3000); }
@@ -418,10 +416,8 @@ function ProductsManager() {
   const handleAdd = async form => { try { await addProduct(form); setShowForm(false); showSuccess('✓ Product added!'); } catch (e) { alert('Failed to add product: ' + e.message); } };
   const handleUpdate = async form => { try { await updateProduct(editingProduct.id, form); setEditingProduct(null); showSuccess('✓ Product updated!'); } catch (e) { alert('Failed to update product: ' + e.message); } };
   const handleDelete = async id => {
-    console.log('Deleting product with id:', id);
     try {
       await deleteProduct(id);
-      console.log('Delete successful');
       setDeleteConfirm(null);
       showSuccess('Product deleted.');
     } catch (e) {
@@ -507,7 +503,7 @@ export default function AdminPanel() {
           {[
             { label: 'Total Products', value: products.length, IconComp: Icons.Package },
             { label: 'Carousel Items', value: totalCarousel, IconComp: Icons.Carousel },
-            { label: 'Mouse Pads', value: products.filter(p => p.cat === 'mouse').length, IconComp: Icons.Mouse },
+            { label: 'Mouse Pads', value: products.filter(p => p.cat === 'mousepads').length, IconComp: Icons.Mouse },
             { label: 'LED Products', value: products.filter(p => p.cat === 'led').length, IconComp: Icons.Bulb },
             { label: 'Home Decor', value: products.filter(p => p.cat === 'home').length, IconComp: Icons.Home },
           ].map(s => (

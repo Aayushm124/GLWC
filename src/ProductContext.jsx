@@ -9,10 +9,15 @@ const ProductContext = createContext();
 
 // ─── SECURITY CONFIG ─────────────────────────────────────────
 const ADMIN_SECRET_PATH = process.env.REACT_APP_ADMIN_PATH;
-const ADMIN_PASSWORD = process.env.REACT_APP_ADMIN_PASSWORD;
-const MAX_ATTEMPTS      = 5;
+const ADMIN_HASH        = process.env.REACT_APP_ADMIN_HASH;
+const MAX_ATTEMPTS      = 8;
 const LOCKOUT_MINUTES   = 15;
 // ─────────────────────────────────────────────────────────────
+
+const hashPassword = async (password) => {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(password));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+};
 
 export { ADMIN_SECRET_PATH };
 
@@ -57,7 +62,6 @@ const addProduct = async (product) => {
       colors: product.colors || ['#daa532'],
       createdAt: Date.now(),
     });
-    console.log('Product added with ID:', docRef.id);
   } catch (err) {
     console.error('Error adding product:', err);
     alert('Failed to add product: ' + err.message);
@@ -74,8 +78,6 @@ const addProduct = async (product) => {
 
   const deleteProduct = async (id) => {
     await deleteDoc(doc(db, 'products', id));
-    const check = await getDoc(doc(db, 'products', id));
-    console.log('Still exists on server after delete:', check.exists());
     setProducts(prev => prev.filter(p => p.id !== id));
   };
 
@@ -112,7 +114,7 @@ const addProduct = async (product) => {
     return { isLocked, attempts: lockout.attempts || 0, remainingMs: (lockout.lockedUntil || 0) - now };
   };
 
-  const login = (password) => {
+  const login = async (password) => {
     const lockout = getLockout();
     const now = Date.now();
     if (lockout.lockedUntil && now < lockout.lockedUntil) {
@@ -120,7 +122,8 @@ const addProduct = async (product) => {
     }
     if (lockout.lockedUntil && now >= lockout.lockedUntil) saveLockout({ attempts: 0, lockedUntil: 0 });
 
-    if (password === ADMIN_PASSWORD) {
+    const hash = await hashPassword(password);
+    if (hash === ADMIN_HASH) {
       saveLockout({ attempts: 0, lockedUntil: 0 });
       setIsAdmin(true);
       sessionStorage.setItem('sd_admin', 'true');
