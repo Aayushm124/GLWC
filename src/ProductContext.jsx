@@ -62,7 +62,6 @@ const addProduct = async (product) => {
       colors: product.colors || ['#daa532'],
       createdAt: Date.now(),
     });
-    console.log('Product added with ID:', docRef.id);
   } catch (err) {
     console.error('Error adding product:', err);
     alert('Failed to add product: ' + err.message);
@@ -79,8 +78,6 @@ const addProduct = async (product) => {
 
   const deleteProduct = async (id) => {
     await deleteDoc(doc(db, 'products', id));
-    const check = await getDoc(doc(db, 'products', id));
-    console.log('Still exists on server after delete:', check.exists());
     setProducts(prev => prev.filter(p => p.id !== id));
   };
 
