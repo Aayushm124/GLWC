@@ -88,23 +88,35 @@ function RelatedCarousel({ products, currentId, category }) {
 
   return (
     <div style={{ padding: '2rem 1.5rem', borderTop: '1px solid rgba(180,150,80,0.15)' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <h2 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: '1.1rem', color: 'rgba(184,134,11,0.8)' }}>Related Products</h2>
-          <div style={{ width: 120, height: 1, background: 'linear-gradient(90deg, rgba(184,134,11,0.3), transparent)' }} />
-        </div>
-        <div style={{ display: 'flex', gap: 8 }}>
-          <button onClick={goLeft} style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(184,134,11,0.08)', border: '1px solid rgba(184,134,11,0.2)', color: 'var(--gold)', cursor: 'pointer' }}><Icons.ChevronLeft size={16} /></button>
-          <button onClick={goRight} style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(184,134,11,0.08)', border: '1px solid rgba(184,134,11,0.2)', color: 'var(--gold)', cursor: 'pointer' }}><Icons.ChevronRight size={16} /></button>
-        </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.25rem' }}>
+        <h2 style={{ fontFamily: 'Syne', fontWeight: 700, fontSize: '1.1rem', color: 'rgba(184,134,11,0.8)' }}>Related Products</h2>
+        <div style={{ width: 120, height: 1, background: 'linear-gradient(90deg, rgba(184,134,11,0.3), transparent)' }} />
       </div>
-      <div style={{ overflow: 'hidden', cursor: isDragging ? 'grabbing' : 'grab' }}
+      <div style={{ position: 'relative', overflow: 'hidden', cursor: isDragging ? 'grabbing' : 'grab' }}
            onMouseDown={e => onDragStart(e.clientX)}
            onMouseMove={e => onDragMove(e.clientX)}
            onMouseUp={onDragEnd} onMouseLeave={onDragEnd}
            onTouchStart={e => onDragStart(e.touches[0].clientX)}
            onTouchMove={e => { e.preventDefault(); onDragMove(e.touches[0].clientX); }}
            onTouchEnd={onDragEnd}>
+        <button onClick={goLeft} style={{
+          position: 'absolute', left: 6, top: '50%', transform: 'translateY(-50%)', zIndex: 20,
+          width: 32, height: 32, borderRadius: '50%', background: 'rgba(184,134,11,0.25)',
+          border: '1px solid rgba(184,134,11,0.55)', color: 'var(--gold)', cursor: 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s',
+        }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(184,134,11,0.45)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(184,134,11,0.25)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
+        ><Icons.ChevronLeft size={16} /></button>
+        <button onClick={goRight} style={{
+          position: 'absolute', right: 6, top: '50%', transform: 'translateY(-50%)', zIndex: 20,
+          width: 32, height: 32, borderRadius: '50%', background: 'rgba(184,134,11,0.25)',
+          border: '1px solid rgba(184,134,11,0.55)', color: 'var(--gold)', cursor: 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s',
+        }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(184,134,11,0.45)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(184,134,11,0.25)'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
+        ><Icons.ChevronRight size={16} /></button>
         <div onTransitionEnd={handleTransitionEnd} style={{ display: 'flex', gap: cardGap, transform: `translateX(${-(offset) + dragOffset}px)`, transition: (isDragging || !transitionEnabled) ? 'none' : 'transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94)' }}>
           {related.map((p, index) => (
             <div key={`${p.id}-${index}`} onClick={() => { window.location.href = `/product/${p.id}`; }} style={{ width: cardWidth, flexShrink: 0, borderRadius: 14, overflow: 'hidden', background: '#fff', border: '1px solid rgba(180,150,80,0.15)', cursor: 'pointer' }}>
