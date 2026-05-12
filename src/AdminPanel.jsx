@@ -302,9 +302,9 @@ function AdminLogin({ onLogin }) {
     return `${m}:${s.toString().padStart(2, '0')}`;
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (locked) return;
-    const result = login(pw);
+    const result = await login(pw);
     if (result.success) { onLogin(); }
     else if (result.locked) { setLocked(true); setLockRemaining(result.remainingMs); setError(''); }
     else { setAttemptsLeft(result.remaining); setError(`Wrong password — ${result.remaining} attempt${result.remaining === 1 ? '' : 's'} left`); setPw(''); setTimeout(() => setError(''), 3000); }
