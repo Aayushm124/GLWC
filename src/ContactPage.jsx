@@ -116,7 +116,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <div style={{ fontSize: '0.65rem', letterSpacing: '0.15em', color: 'var(--muted)', textTransform: 'uppercase', fontWeight: 600, marginBottom: 4 }}>Instagram</div>
-                  <div style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text)' }}>@glcworks</div>
+                  <div style={{ fontSize: '0.88rem', fontWeight: 600, color: 'var(--text)' }}>@glcw.in</div>
                   <div style={{ fontSize: '0.72rem', color: 'var(--muted)', marginTop: 2 }}>Follow us for new products</div>
                 </div>
               </div>
