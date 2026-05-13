@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Icons, ProductImagePlaceholder } from './Icons';
+import useWishlist from './useWishlist';
 
 const BADGE_COLORS = {
   NEW: { bg: '#e10000', color: '#fff' },
@@ -9,7 +10,7 @@ const BADGE_COLORS = {
 
 export default function ProductCard({ product, index, isMobile = false }) {
   const [hovered, setHovered] = useState(false);
-  const [wished, setWished] = useState(false);
+  const [wished, toggleWish] = useWishlist(product.id);
   const [activeImg, setActiveImg] = useState(0);
   const cardRef = useRef();
   const touchStartX = useRef(null);
@@ -135,7 +136,7 @@ export default function ProductCard({ product, index, isMobile = false }) {
           </div>
 
           {/* Wishlist */}
-          <button onClick={(e) => { e.stopPropagation(); e.preventDefault(); setWished(!wished); }} style={{
+          <button onClick={(e) => { e.stopPropagation(); e.preventDefault(); toggleWish(); }} style={{
             position: 'absolute', top: 8, right: 8,
             width: isMobile ? 28 : 36, height: isMobile ? 28 : 36,
             borderRadius: '50%', zIndex: 2,

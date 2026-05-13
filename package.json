@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "ajv": "^8.20.0",
     "ajv-keywords": "^5.1.0",
     "firebase": "^12.13.0",

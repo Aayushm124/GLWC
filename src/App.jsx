@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import { HelmetProvider } from 'react-helmet-async';
 import Header from './Header';
 import ProductGrid from './ProductGrid';
@@ -88,6 +89,7 @@ export default function App() {
         {isContact && <ContactPage />}
         {!isHome && !isAdmin && !isProduct && !isContact && <NotFound />}
       </ProductProvider>
+      <Analytics />
     </HelmetProvider>
   );
 }

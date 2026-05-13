@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useProducts } from './ProductContext';
 import { Icons } from './Icons';
 import SEO from './SEO';
+import useWishlist from './useWishlist';
 
 const injectStyles = () => {
   if (document.getElementById('shimmer-styles')) return;
@@ -140,8 +141,12 @@ function RelatedCarousel({ products, currentId, category }) {
 
 export default function ProductDetail() {
   const { products } = useProducts();
+  const productId = useMemo(() => {
+    const path = window.location.pathname;
+    return path.substring(path.lastIndexOf('/') + 1);
+  }, []);
   const [activeImg, setActiveImg] = useState(0);
-  const [wished, setWished] = useState(false);
+  const [wished, toggleWish] = useWishlist(productId);
   const [zoom, setZoom] = useState({ show: false, x: 0, y: 0 });
   const [lightbox, setLightbox] = useState(false);
   const imgRef = useRef();
@@ -158,11 +163,6 @@ export default function ProductDetail() {
   }, [lightbox]);
 
   useEffect(() => { injectStyles(); }, []);
-
-  const productId = useMemo(() => {
-    const path = window.location.pathname;
-    return path.substring(path.lastIndexOf('/') + 1);
-  }, []);
 
   const product = products.find(p => p.id === productId);
   useEffect(() => { window.scrollTo(0, 0); setActiveImg(0); }, [productId]);
@@ -225,7 +225,7 @@ export default function ProductDetail() {
           <Icons.ArrowLeft size={18} /><span style={{ lineHeight: 1 }}>Back</span>
         </button>
         <div onClick={() => window.location.href = '/'} style={{ fontFamily: 'Syne', fontWeight: 800, fontSize: '1.1rem', background: 'linear-gradient(120deg, #8B6000, #b8860b)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', cursor: 'pointer' }}>GLCW</div>
-        <button onClick={() => setWished(!wished)} style={{ background: 'transparent', border: 'none' }}><Icons.Heart size={20} color={wished ? '#ef4444' : 'var(--muted)'} filled={wished} /></button>
+        <button onClick={() => toggleWish()} style={{ background: 'transparent', border: 'none' }}><Icons.Heart size={20} color={wished ? '#ef4444' : 'var(--muted)'} filled={wished} /></button>
       </div>
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '1rem 1rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1rem', alignItems: 'start' }}>
