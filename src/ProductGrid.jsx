@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ProductCard from './ProductCard';
 import { useProducts } from './ProductContext';
 import { Icons } from './Icons';
@@ -16,6 +16,7 @@ export default function ProductGrid({ sectionRef }) {
   const { products } = useProducts();
   const isMobile = useIsMobile();
   const filtered = active === 'all' ? products : products.filter(p => p.cat === active);
+  const touchStartX = useRef(null);
 
   useEffect(() => {
     const fn = (e) => setActive(e.detail);
@@ -23,8 +24,28 @@ export default function ProductGrid({ sectionRef }) {
     return () => window.removeEventListener('setFilter', fn);
   }, []);
 
+  function handleTouchStart(e) {
+    touchStartX.current = e.touches[0].clientX;
+  }
+
+  function handleTouchEnd(e) {
+    if (touchStartX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    touchStartX.current = null;
+    if (Math.abs(dx) < 50) return;
+    const idx = FILTERS.findIndex(f => f.key === active);
+    if (dx < 0 && idx < FILTERS.length - 1) setActive(FILTERS[idx + 1].key);
+    if (dx > 0 && idx > 0) setActive(FILTERS[idx - 1].key);
+  }
+
   return (
-    <section id="product-section" ref={sectionRef} style={{ position: 'relative', zIndex: 1 }}>
+    <section
+      id="product-section"
+      ref={sectionRef}
+      style={{ position: 'relative', zIndex: 1 }}
+      onTouchStart={isMobile ? handleTouchStart : undefined}
+      onTouchEnd={isMobile ? handleTouchEnd : undefined}
+    >
 
       {/* Filter bar */}
       <div style={{
@@ -72,6 +93,22 @@ export default function ProductGrid({ sectionRef }) {
           </div>
         )}
       </div>
+
+      {/* Swipe dots indicator — mobile only */}
+      {isMobile && (
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 6, paddingTop: '0.5rem' }}>
+          {FILTERS.map(f => (
+            <div key={f.key} onClick={() => setActive(f.key)} style={{
+              width: active === f.key ? 18 : 6,
+              height: 6,
+              borderRadius: 999,
+              background: active === f.key ? 'var(--gold)' : 'rgba(184,134,11,0.25)',
+              transition: 'all 0.25s',
+              cursor: 'pointer',
+            }} />
+          ))}
+        </div>
+      )}
 
       {/* Section header */}
       <div style={{
